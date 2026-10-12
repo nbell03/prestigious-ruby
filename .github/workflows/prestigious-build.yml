@@ -28,7 +28,7 @@ jobs:
       - name: Install GBA build dependencies and emulator test tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential git libpng-dev gcc-arm-none-eabi binutils-arm-none-eabi mgba-sdl xvfb xdotool imagemagick
+          sudo apt-get install -y build-essential git libpng-dev gcc-arm-none-eabi binutils-arm-none-eabi mgba-sdl xvfb xdotool imagemagick tesseract-ocr
 
       - name: Build Pokémon Ruby
         run: make -j2 modern
@@ -75,13 +75,32 @@ jobs:
             crop_screen mgba-title-wait
             dimensions=$(identify -format "%wx%h" mgba-title-wait.png)
             colors=$(identify -format "%k" mgba-title-wait.png)
+            menu_text=$(tesseract mgba-title-wait.png stdout 2>/dev/null | tr '[:lower:]' '[:upper:]')
             echo "GBA viewport after six Start taps and title wait: $dimensions; unique colors: $colors"
+            echo "OCR from stable menu screen: $menu_text"
             cat mgba-smoke.log
             if [ "$colors" -lt 8 ] || [ "$dimensions" != "240x160" ]; then
               echo "FAIL: GBA viewport is blank or missing"
               exit 1
             fi
-            echo "PASS: mGBA rendered the GBA viewport after six Start taps and the title wait."
+            if ! echo "$menu_text" | grep -q "NEW GAME"; then
+              echo "FAIL: title/menu screen not confirmed by OCR"
+              exit 1
+            fi
+            echo "PASS: title menu and NEW GAME option confirmed."
+            # mGBA's default keyboard mapping uses Z for the A button. Select New Game
+            # and capture the actual new-game opening instead of stopping at the menu.
+            xdotool key --clearmodifiers z
+            sleep 8
+            crop_screen mgba-new-game
+            new_game_text=$(tesseract mgba-new-game.png stdout 2>/dev/null | tr '[:lower:]' '[:upper:]')
+            new_game_colors=$(identify -format "%k" mgba-new-game.png)
+            echo "Screen after selecting New Game: $new_game_text (colors: $new_game_colors)"
+            if [ "$new_game_colors" -lt 8 ]; then
+              echo "FAIL: screen went blank after selecting New Game"
+              exit 1
+            fi
+            echo "PASS: selecting New Game produced a rendered screen."
           '
 
       - name: Upload ROM and emulator evidence
@@ -98,5 +117,7 @@ jobs:
             mgba-start-*-full.png
             mgba-title-wait.png
             mgba-title-wait-full.png
+            mgba-new-game.png
+            mgba-new-game-full.png
           if-no-files-found: warn
           retention-days: 7
