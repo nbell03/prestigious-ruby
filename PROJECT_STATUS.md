@@ -42,6 +42,8 @@ Last updated: 2026-10-12
 
 - HM progression audit: contextual party-menu access for Surf, Flash, Fly, Dive, and Waterfall now checks the relevant badge as well as HM acquisition/context (Flash uses the Knuckle Badge gate). This closes a route around badge progression that could occur when the contextual menu offered an HM. Added a source regression check for these gates. Commit: `bda19306`; regression coverage follows in the test commit. Awaiting CI/build confirmation.
 
+- Move-category edge case: removed Hidden Power from the forced-special exceptions so its category follows its resolved type, as in the Gen IV split. Added a source regression check. Code commit: `PENDING_SHA`; check update committed separately. Needs CI confirmation.
+
 - Physical/special compatibility fix: Light Ball now doubles both Pikachu's Attack and Special Attack, matching the Generation IV-era item behavior needed once Electric moves can be physical or special. Added a source regression check. Commit: `3273e371`; regression update committed separately. CI confirmation is still pending.
 
 - Physical/special split audit advanced: expanded the regression script to check representative moves that changed category in Generation IV (physical Fire/Water/Grass/Electric/Ice/Dragon/Dark/Ghost/Steel/Poison and special Normal/Flying/Poison/Ground/Ghost/Bug moves). Corrected the special-category tests to check only moves that actually require explicit reclassification; unchanged Ice/Dragon special moves correctly fall through to the type default. These checks are committed but still need a successful CI run and gameplay validation.
