@@ -59,9 +59,9 @@ for species, level, target in (
     ("SPECIES_PORYGON", 36, "SPECIES_PORYGON2"),
 ):
     start = evolutions.find(f"[{species}]")
-    end = evolutions.find("\\n    [SPECIES_", start + 1)
+    end = evolutions.find("\n    [SPECIES_", start + 1)
     block = evolutions[start:end] if start >= 0 and end >= 0 else ""
-    pattern = rf"EVO_LEVEL,\\s*{level},\\s*{target}"
+    pattern = rf"EVO_LEVEL,\s*{level},\s*{target}"
     require(f"{species} evolves at level {level}", bool(re.search(pattern, block)))
 
 require("No trade-triggered evolution methods remain", "EVO_TRADE" not in evolutions)
