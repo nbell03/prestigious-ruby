@@ -59,6 +59,11 @@ for species, level, target in (
     pattern = rf"\[{species}\]\s*=\s*\{{\{{EVO_LEVEL,\s*{level},\s*{target}\}}"
     require(f"{species} evolves at level {level}", bool(re.search(pattern, evolutions)))
 
+require("Light Ball boosts both Pikachu attacking stats under the split",
+        "HOLD_EFFECT_LIGHT_BALL" in damage
+        and "attack *= 2;" in damage[damage.find("HOLD_EFFECT_LIGHT_BALL"):damage.find("HOLD_EFFECT_THICK_CLUB")]
+        and "spAttack *= 2;" in damage[damage.find("HOLD_EFFECT_LIGHT_BALL"):damage.find("HOLD_EFFECT_THICK_CLUB")])
+
 require("Physical/special split classifies moves individually",
         "static bool8 IsMovePhysical" in damage and "static bool8 IsMoveSpecial" in damage)
 physical_cases = damage[damage.find("static bool8 IsMovePhysical"):damage.find("static bool8 IsMoveSpecial")]
