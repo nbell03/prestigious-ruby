@@ -26,11 +26,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential git gcc-arm-none-eabi binutils-arm-none-eabi libpng-dev
 
-      - name: Build modified Ruby ROM with the supported legacy toolchain
+      - name: Build and install the supported legacy agbcc compiler
         run: |
           git clone --depth 1 https://github.com/pret/agbcc.git agbcc
-          ./agbcc/build.sh
-          ./agbcc/install.sh ./
+          (cd agbcc && ./build.sh && ./install.sh ../)
+
+      - name: Build modified Ruby ROM
+        run: |
           make clean
           make -j2 ruby COMPARE=0
 
