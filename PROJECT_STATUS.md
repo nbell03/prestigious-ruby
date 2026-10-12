@@ -40,6 +40,8 @@ Last updated: 2026-10-12
 - Recent development commits on `prestigious-ruby-dev`: `a40b0686` (source regression checks), `57eb996a` (CI integration), `0e241c31` (correct Absol test), and `fd8eb846` (expanded Brandon/Magma coverage). Save after each coherent change and update this status file frequently.
 - Current CI status for the newest commit is not confirmed; the commit-status endpoint returned no status records, so do not claim these checks passed.
 
+- Physical/special split audit advanced: expanded the regression script to check representative moves that changed category in Generation IV (physical Fire/Water/Grass/Electric/Ice/Dragon/Dark/Ghost/Steel/Poison and special Normal/Flying/Poison/Ground/Ghost/Bug moves). Corrected the special-category tests to check only moves that actually require explicit reclassification; unchanged Ice/Dragon special moves correctly fall through to the type default. These checks are committed but still need a successful CI run and gameplay validation.
+- Latest source-test commits: `32e84501` (expand split coverage) and `b93741f8` (correct the tested move list). Continue frequent saves after each focused change.
 ## Next steps
 1. Trigger CI on the current branch tip and confirm the current workflow builds successfully without publishing the full ROM.
 2. Review the move-category implementation for move coverage and edge cases, including Thick Fat, screens, weather, critical hits, fixed-damage moves, and move/type overrides.
