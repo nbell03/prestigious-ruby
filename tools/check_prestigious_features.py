@@ -94,6 +94,24 @@ require("Physical/special split classifies moves individually",
         "static bool8 IsMovePhysical" in damage and "static bool8 IsMoveSpecial" in damage)
 require("Special category is the inverse of physical category",
         "return type != TYPE_MYSTERY && !IsMovePhysical(move, type);" in damage)
+damage_calc = damage[calc_start:]
+physical_damage_block = damage_calc[damage_calc.find("if (IsMovePhysical(move, type))"):damage_calc.find("if (IsMoveSpecial(move, type))")]
+special_damage_block = damage_calc[damage_calc.find("if (IsMoveSpecial(move, type))"):damage_calc.find("// Weather and Flash Fire")]
+require("Physical damage uses Attack/Defense and Reflect",
+        "attacker, attack, STAT_STAGE_ATK" in physical_damage_block
+        and "defender, defense, STAT_STAGE_DEF" in physical_damage_block
+        and "SIDE_STATUS_REFLECT" in physical_damage_block)
+require("Special damage uses Sp. Attack/Sp. Defense and Light Screen",
+        "attacker, spAttack, STAT_STAGE_SPATK" in special_damage_block
+        and "defender, spDefense, STAT_STAGE_SPDEF" in special_damage_block
+        and "SIDE_STATUS_LIGHTSCREEN" in special_damage_block)
+require("Main damage calculation selects stats by move category, not type",
+        "if (IsMovePhysical(move, type))" in damage_calc
+        and "if (IsMoveSpecial(move, type))" in damage_calc
+        and "if (type < TYPE_MYSTERY)" not in damage_calc)
+require("Thick Club boost stays on Attack while category split selects Sp. Attack separately",
+        "HOLD_EFFECT_THICK_CLUB" in damage
+        and "attack *= 2;" in damage[damage.find("HOLD_EFFECT_THICK_CLUB"):damage.find("if (defender->ability == ABILITY_THICK_FAT")])
 physical_move_overrides = set(re.findall(r"case (MOVE_[A-Z0-9_]+):", physical_overrides))
 special_move_overrides = set(re.findall(r"case (MOVE_[A-Z0-9_]+):", special_overrides))
 require("No move is explicitly listed in both category override groups",
