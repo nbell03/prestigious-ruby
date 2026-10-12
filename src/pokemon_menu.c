@@ -220,7 +220,7 @@ static u8 GetContextualHmFieldMove(void)
     if (FlagGet(FLAG_BADGE05_GET) == TRUE && FlagGet(FLAG_RECEIVED_HM_SURF) == TRUE && IsPlayerFacingSurfableFishableWater() == TRUE)
         return 4; // Surf
 
-    if (FlagGet(FLAG_BADGE01_GET) == TRUE && FlagGet(FLAG_RECEIVED_HM05) == TRUE && gMapHeader.mapType == MAP_TYPE_UNDERGROUND)
+    if (FlagGet(FLAG_BADGE02_GET) == TRUE && FlagGet(FLAG_RECEIVED_HM05) == TRUE && gMapHeader.mapType == MAP_TYPE_UNDERGROUND)
         return 1; // Flash
 
     if (FlagGet(FLAG_BADGE06_GET) == TRUE && FlagGet(FLAG_RECEIVED_HM02) == TRUE
