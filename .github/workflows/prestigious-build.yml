@@ -20,14 +20,15 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Check out source
         uses: actions/checkout@v4
 
-      - name: Install GBA build dependencies
+      - name: Install GBA build dependencies and mGBA
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential git libpng-dev gcc-arm-none-eabi binutils-arm-none-eabi
+          sudo apt-get install -y build-essential git libpng-dev gcc-arm-none-eabi binutils-arm-none-eabi mgba-sdl xvfb
 
       - name: Build Pokémon Ruby
         run: make -j2 modern
@@ -37,7 +38,34 @@ jobs:
 
       - name: Check ROM output
         run: |
+          set -euo pipefail
           test -s pokeruby.gba
+          test "$(stat -c %s pokeruby.gba)" -eq 16777216
           file pokeruby.gba
           sha256sum pokeruby.gba
 
+      - name: mGBA emulator launch smoke test
+        shell: bash
+        run: |
+          set +e
+          SDL_AUDIODRIVER=dummy timeout --signal=TERM 12s xvfb-run -a mgba -l 15 pokeruby.gba > mgba-smoke.log 2>&1
+          result=$?
+          set -e
+          cat mgba-smoke.log
+          # A timeout exit means the emulator remained alive for the full test window.
+          # This is a load/stability smoke test, not a visual gameplay certification.
+          if [ "$result" -ne 124 ] && [ "$result" -ne 143 ]; then
+            echo "mGBA exited unexpectedly with status $result"
+            exit 1
+          fi
+          echo "PASS: mGBA loaded the ROM and remained running for 12 seconds."
+
+      - name: Upload ROM and emulator log
+        uses: actions/upload-artifact@v4
+        with:
+          name: prestigious-ruby-emulator-smoke-test
+          path: |
+            pokeruby.gba
+            mgba-smoke.log
+          if-no-files-found: error
+          retention-days: 7
