@@ -1,8 +1,8 @@
 #ifndef GUARD_BASE_STATS_H
 #define GUARD_BASE_STATS_H
 
-// Maximum value for a female Pokémon is 254 (MON_FEMALE) which is 100% female.
-// 255 (MON_GENDERLESS) is reserved for genderless Pokémon.
+// Maximum value for a female PokÃ©mon is 254 (MON_FEMALE) which is 100% female.
+// 255 (MON_GENDERLESS) is reserved for genderless PokÃ©mon.
 #define PERCENT_FEMALE(percent) min(254, ((percent * 255) / 100))
 #define OLD_UNOWN_BASE_STATS                \
     {                                       \
@@ -11646,7 +11646,7 @@ const struct BaseStats gBaseStats[] =
         .baseHP        = 65,
         .baseAttack    = 130,
         .baseDefense   = 60,
-        .baseSpeed     = 75,
+        .baseSpeed     = 100,
         .baseSpAttack  = 75,
         .baseSpDefense = 60,
         .type1 = TYPE_DARK,
