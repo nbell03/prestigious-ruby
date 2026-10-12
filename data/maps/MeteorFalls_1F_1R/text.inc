@@ -35,7 +35,7 @@ MeteorFalls_1F_1R_Text_1933EC:: @ 81933EC
 	.string "They would turn the world into an\n"
 	.string "endless sea, swallowing towns, farms,\n"
 	.string "and the homes of future generations.\p"
-	.string "We seek more land—but this METEORITE\n"
+	.string "We seek more land, but this METEORITE\n"
 	.string "is no simple tool. Its energy could\n"
 	.string "reshape MT. CHIMNEY, or unleash forces\n"
 	.string "we cannot fully predict.\p"
