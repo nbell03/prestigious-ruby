@@ -134,6 +134,8 @@ static bool8 IsMovePhysical(u32 move, u8 type)
         return TRUE;
 
     // Special moves whose types were physical before Generation IV.
+    // Hidden Power is special in Generation IV regardless of its type.
+    case MOVE_HIDDEN_POWER:
     case MOVE_RAZOR_WIND:
     case MOVE_HYPER_BEAM:
     case MOVE_SONIC_BOOM:
