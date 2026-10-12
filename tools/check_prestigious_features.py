@@ -155,8 +155,10 @@ for species, level in (("SPECIES_MIGHTYENA", 45),
     require(f"Late Maxie battle has {species} at level {level}",
             f".level = {level},\n\t.species = {species}" in maxie2_party)
 brandon_party_start = trainers.find("gTrainerParty_Steven[]")
-brandon_party = trainers[brandon_party_start:brandon_party_start + 4000]
-require("Brandon party definition exists", brandon_party_start >= 0)
+brandon_party_end = trainers.find("\n};", brandon_party_start)
+brandon_party = trainers[brandon_party_start:brandon_party_end] if brandon_party_start >= 0 and brandon_party_end >= 0 else ""
+require("Brandon party definition exists", brandon_party_start >= 0 and brandon_party_end >= 0)
+require("Brandon has exactly six Pokémon", len(re.findall(r"\.species = SPECIES_", brandon_party)) == 6)
 for species in ("SPECIES_REGIROCK", "SPECIES_REGICE", "SPECIES_REGISTEEL",
                 "SPECIES_NINJASK", "SPECIES_DUSCLOPS", "SPECIES_SOLROCK"):
     require(f"Brandon party includes {species}", species in brandon_party)
