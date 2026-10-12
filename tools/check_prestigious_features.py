@@ -119,9 +119,10 @@ require("Brandon encounter is gated behind game clear",
         "CaveOfOrigin_B4F_EventScript_UpdateBrandonVisibility" in cave_scripts
         and "FLAG_SYS_GAME_CLEAR" in cave_scripts
         and "FLAG_DEFEATED_BRANDON_CAVE_OF_ORIGIN" in cave_scripts)
-require("Brandon battle uses Steven's original encounter slot",
+require("Brandon battle uses his dedicated trainer entry",
         "CaveOfOrigin_B4F_EventScript_Brandon::" in cave_scripts
-        and "trainerbattle_no_intro TRAINER_STEVEN" in cave_scripts)
+        and "trainerbattle_no_intro TRAINER_BRANDON_POSTGAME" in cave_scripts
+        and "trainerbattle_no_intro TRAINER_STEVEN" not in cave_scripts)
 require("Brandon encounter has intro and post-battle dialogue",
         "CaveOfOrigin_B4F_Text_BrandonIntro" in cave_scripts
         and "CaveOfOrigin_B4F_Text_BrandonAfterBattle" in cave_scripts)
