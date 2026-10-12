@@ -35,7 +35,7 @@ Last updated: 2026-10-12
 
 - Regression test review: the move split uses explicit `return FALSE` exceptions inside `IsMovePhysical`, with `IsMoveSpecial` defined as its inverse. The test now checks the actual special-move exception block rather than expecting a separate switch. The evolution regex was also corrected to recognize entries with multiple evolution branches (Slowpoke, Poliwhirl, and Clamperl). These fixes address test-harness false negatives; CI confirmation is still needed.
 
-- Regression harness fix: moved physical/special category extraction before the Hidden Power check that consumes those variables. This prevents a Python `NameError` from aborting the feature suite before it can report the actual source checks. Commit: `PENDING_SHA`; verify in the next CI run.
+- Regression harness fix: moved physical/special category extraction before the Hidden Power check that consumes those variables. Commit: `a49bc7c9`; subsequent category-test corrections are recorded below. CI verification remains pending.
 
 - Trade-evolution coverage tightened: the regression suite now also asserts that no `EVO_TRADE` method remains in the evolution table, in addition to checking the known level-36 trade branches. This helps catch any forgotten trade evolution in future edits. Test commit: `9ba024ac`; source changes await CI.
 
@@ -52,7 +52,7 @@ Last updated: 2026-10-12
 
 - HM progression audit: contextual party-menu access for Surf, Flash, Fly, Dive, and Waterfall now checks the relevant badge as well as HM acquisition/context (Flash uses the Knuckle Badge gate). This closes a route around badge progression that could occur when the contextual menu offered an HM. Added a source regression check for these gates. Commit: `bda19306`; regression coverage follows in the test commit. Awaiting CI/build confirmation.
 
-- Move-category edge case: removed Hidden Power from the forced-special exceptions so its category follows its resolved type, as in the Gen IV split. Added a source regression check. Code commit: `9aea6e75`; regression check corrected in a follow-up commit. Needs CI confirmation.
+- Move-category edge case corrected: Hidden Power remains special regardless of type under the Gen IV split. It is explicitly listed among special overrides and the regression test enforces that behavior. This corrects an earlier mistaken assumption that it should follow its resolved type. Code commit: `c96e5d7a`; test update committed separately. CI confirmation pending.
 
 - Physical/special compatibility fix: Light Ball now doubles both Pikachu's Attack and Special Attack, matching the Generation IV-era item behavior needed once Electric moves can be physical or special. Added a source regression check. Commit: `3273e371`; regression update committed separately. CI confirmation is still pending.
 
