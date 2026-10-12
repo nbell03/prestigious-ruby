@@ -8223,17 +8223,17 @@ const struct TrainerMonNoItemDefaultMoves gTrainerParty_Anonymous15[] = {
 const struct TrainerMonNoItemDefaultMoves gTrainerParty_Tabitha1[] = {
     {
 	.iv = 50,
-	.level = 32,
+	.level = 34,
 	.species = SPECIES_NUMEL
     },
     {
 	.iv = 50,
-	.level = 32,
+	.level = 34,
 	.species = SPECIES_MIGHTYENA
     },
     {
 	.iv = 50,
-	.level = 32,
+	.level = 36,
 	.species = SPECIES_CAMERUPT
     }
 };
@@ -8285,12 +8285,12 @@ const struct TrainerMonNoItemDefaultMoves gTrainerParty_Courtney1[] = {
 const struct TrainerMonNoItemDefaultMoves gTrainerParty_Courtney2[] = {
     {
 	.iv = 50,
-	.level = 40,
+	.level = 42,
 	.species = SPECIES_CAMERUPT
     },
     {
 	.iv = 50,
-	.level = 40,
+	.level = 42,
 	.species = SPECIES_MIGHTYENA
     }
 };
