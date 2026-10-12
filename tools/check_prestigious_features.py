@@ -92,6 +92,13 @@ require("Team Magma dialogue references Maxie and the meteorite",
         "MAXIE" in magma_text and "METEORITE" in magma_text)
 
 # Late Maxie is a key Ruby antagonist battle and should remain a meaningful challenge.
+for party, levels in (("Tabitha1", (34, 34, 36)), ("Courtney2", (42, 42))):
+    start = trainers.find(f"gTrainerParty_{party}[] = {{")
+    end = trainers.find("\\n};", start)
+    block = trainers[start:end] if start >= 0 and end >= 0 else ""
+    found_levels = tuple(int(level) for level in re.findall(r"\\.level = (\\d+),", block))
+    require(f"Team Magma admin party {party} has revised levels", found_levels == levels)
+
 maxie2_start = trainers.find("gTrainerParty_Maxie2[] = {")
 maxie2_end = trainers.find("\n};", maxie2_start)
 maxie2_party = trainers[maxie2_start:maxie2_end] if maxie2_start >= 0 and maxie2_end >= 0 else ""
