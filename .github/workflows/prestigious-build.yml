@@ -3,6 +3,8 @@ name: Prestigious Ruby build
 on:
   push:
     branches: [prestigious-ruby-dev]
+  pull_request:
+    branches: [master]
   workflow_dispatch:
 
 permissions:
