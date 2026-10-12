@@ -36,6 +36,10 @@ Last updated: 2026-10-12
 - HM access is being changed so Cut, Rock Smash, and Strength obstacle interactions no longer require a matching move in the party, while badge checks remain. Surf, Fly, Flash, Dive, and Waterfall are being exposed contextually from the party menu and use the selected Pokémon only for animation.
 - A clean source build succeeded on commit `be1384e9be7897363ca7903604949f70e77355da` (Actions run [38194767589](https://github.com/nbell03/prestigious-ruby/actions/runs/38194767589)). That historical run uploaded a temporary test-ROM artifact; the current `.github/workflows/prestigious-build.yml` no longer includes a ROM-upload step, so future verification runs should not publish the full ROM. No patch has been created or verified yet.
 
+- Added `tools/check_prestigious_features.py` and wired it into `.github/workflows/prestigious-build.yml`. The checks cover move power/effects, selected evolution levels and trade evolutions, the physical/special helper functions, Brandon's story gate/dialogue/party species, HM badge gates, Absol's level-5 gift, and key Team Magma dialogue. The checks have been committed, but no CI result is available yet; source-text checks do not substitute for playing the ROM.
+- Recent development commits on `prestigious-ruby-dev`: `a40b0686` (source regression checks), `57eb996a` (CI integration), `0e241c31` (correct Absol test), and `fd8eb846` (expanded Brandon/Magma coverage). Save after each coherent change and update this status file frequently.
+- Current CI status for the newest commit is not confirmed; the commit-status endpoint returned no status records, so do not claim these checks passed.
+
 ## Next steps
 1. Trigger CI on the current branch tip and confirm the current workflow builds successfully without publishing the full ROM.
 2. Review the move-category implementation for move coverage and edge cases, including Thick Fat, screens, weather, critical hits, fixed-damage moves, and move/type overrides.
