@@ -15,6 +15,7 @@
 #include "strings.h"
 #include "item_use.h"
 #include "item.h"
+#include "constants/items.h"
 #include "event_data.h"
 #include "mail.h"
 #include "field_player_avatar.h"

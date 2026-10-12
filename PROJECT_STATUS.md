@@ -49,7 +49,7 @@ Last updated: 2026-10-12
 - User preference clarified: do not invite or ask the user to test interim builds; they want to wait until Prestigious Ruby is finished. Continue building and validate internally before announcing a finished test-ready patch.
 - Added a first balance pass to the late rival battles in `src/data/trainer_parties.h`: all three starter matchups for the late Brendan/May party variants now use the fully evolved starter (Sceptile, Blaziken, or Swampert) at level 38, with supporting party members raised from levels 31/32 to 35/36. Commit: `7425f689`.
 - Added regression checks for the fully evolved starter in all six late rival party variants. Commit: `c897c721`. These tests and the latest build still require CI confirmation; do not treat the party changes as playtested.
-- The custom build run triggered after workflow fixes was queued but did not yield a completed job result in the latest check. Continue monitoring; no release patch is ready yet.
+- Latest build run `38195719134` failed at C compilation because `ITEM_HM07_WATERFALL` was not visible in `src/field_control_avatar.c`; the same item constant is used in `src/pokemon_menu.c`. The next commit adds explicit `constants/items.h` includes to both files. No successful build of the HM-access changes is confirmed yet.
 
 - Regression script correction: fixed the new late-rival party check so it correctly extracts each party block before checking its evolved starter and level. Commit: `c653599d`.
 - User explicitly does not want to test interim builds. Do not suggest testing until the feature list is finished, the latest source checks pass, and a verified patch is available.

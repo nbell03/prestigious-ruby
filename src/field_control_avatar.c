@@ -14,6 +14,7 @@
 #include "constants/flags.h"
 #include "item_menu.h"
 #include "item.h"
+#include "constants/items.h"
 #include "metatile_behavior.h"
 #include "overworld.h"
 #include "safari_zone.h"
