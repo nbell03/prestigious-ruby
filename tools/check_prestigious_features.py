@@ -55,6 +55,16 @@ for species, level, target in (
 
 require("Physical/special split classifies moves individually",
         "static bool8 IsMovePhysical" in damage and "static bool8 IsMoveSpecial" in damage)
+physical_cases = damage[damage.find("static bool8 IsMovePhysical"):damage.find("static bool8 IsMoveSpecial")]
+special_cases = damage[damage.find("static bool8 IsMovePhysical"):damage.find("s32 CalculateBaseDamage")]
+for move in ("MOVE_FIRE_PUNCH", "MOVE_WATERFALL", "MOVE_BULLET_SEED",
+             "MOVE_THUNDER_PUNCH", "MOVE_ICE_PUNCH", "MOVE_DRAGON_CLAW",
+             "MOVE_BITE", "MOVE_SHADOW_PUNCH", "MOVE_METAL_CLAW"):
+    require(f"{move} is classified physical", f"case {move}:" in physical_cases)
+for move in ("MOVE_SHADOW_BALL", "MOVE_SLUDGE_BOMB", "MOVE_HYPER_BEAM",
+             "MOVE_ICY_WIND", "MOVE_DRAGON_BREATH", "MOVE_TWISTER",
+             "MOVE_HIDDEN_POWER", "MOVE_WEATHER_BALL"):
+    require(f"{move} is classified special", f"case {move}:" in special_cases)
 require("Brandon encounter is gated behind game clear",
         "CaveOfOrigin_B4F_EventScript_UpdateBrandonVisibility" in cave_scripts
         and "FLAG_SYS_GAME_CLEAR" in cave_scripts
