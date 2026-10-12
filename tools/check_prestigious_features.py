@@ -200,6 +200,8 @@ require("Steven remains the original champion",
         '.trainerName = _("STEVEN")' in steven_record
         and ".party = {.ItemCustomMoves = gTrainerParty_Steven }" in steven_record)
 require("Brandon has exactly six Pokémon", len(re.findall(r"\.species = SPECIES_", brandon_party)) == 6)
+require("Brandon Regis are level 70 and remaining team is level 68",
+        [int(level) for level in re.findall(r"\.level = (\d+),", brandon_party)] == [70, 70, 70, 68, 68, 68])
 for species in ("SPECIES_REGIROCK", "SPECIES_REGICE", "SPECIES_REGISTEEL",
                 "SPECIES_NINJASK", "SPECIES_DUSCLOPS", "SPECIES_SOLROCK"):
     require(f"Brandon party includes {species}", species in brandon_party)
