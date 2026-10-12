@@ -94,6 +94,8 @@ Last updated: 2026-10-12
 
 - Latest regression suite expansion: split-category checks now validate special-move overrides in the correct helper block, Hidden Power remains special regardless of type, evolution checks cover secondary branches, and both Team Magma speeches are checked at their actual map paths (including the Slateport event reference). A manual source-level review of 107 corresponding feature assertions passed on the current source snapshots, including the later checks for contradictory move overrides and Brandon's exact six-Pokémon party. This is not a substitute for the repository's actual CI build; no successful latest CI result or patch artifact has been confirmed.
 
+- Brandon regression update: corrected the earlier source test to require the dedicated `TRAINER_BRANDON_POSTGAME` encounter ID and explicitly reject the Steven ID in the Cave of Origin script. Commit: `PENDING_SHA`.
+
 - Critical trainer separation fix (latest): discovered that earlier edits had renamed and replaced Steven's original Champion entry with Brandon. Restored Steven's vanilla trainer record and level-55–58 party, added `TRAINER_BRANDON_POSTGAME 694`, a dedicated Champion-class Brandon trainer record and six-Pokémon `gTrainerParty_BrandonPostgame`, and switched the Cave of Origin event to the new trainer ID. The feature regression script now checks that both trainer identities/parties stay separate. Commits: party `6422d0b4`, trainer record `2ebcbbb0`, ID `98c0919e`, event `fe0e8e70`; regression test pending CI confirmation.
 
 ## Next steps
