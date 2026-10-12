@@ -2527,7 +2527,7 @@ const struct BattleMove gBattleMoves[] = {
 
     [MOVE_FURY_CUTTER] = {
         .effect = EFFECT_FURY_CUTTER,
-        .power = 10,
+        .power = 25,
         .type = TYPE_BUG,
         .accuracy = 95,
         .pp = 20,
@@ -3979,7 +3979,7 @@ const struct BattleMove gBattleMoves[] = {
 
     [MOVE_BULLET_SEED] = {
         .effect = EFFECT_MULTI_HIT,
-        .power = 10,
+        .power = 25,
         .type = TYPE_GRASS,
         .accuracy = 100,
         .pp = 30,
