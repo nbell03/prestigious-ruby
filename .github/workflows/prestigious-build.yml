@@ -3,13 +3,16 @@ name: Prestigious Ruby build
 on:
   push:
     branches: [prestigious-ruby-dev]
+    paths-ignore:
+      - "PROJECT_STATUS.md"
+      - "docs/**"
   pull_request:
     branches: [master]
   workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
   contents: read
