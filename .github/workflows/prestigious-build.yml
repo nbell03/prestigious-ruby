@@ -44,36 +44,40 @@ jobs:
           file pokeruby.gba
           sha256sum pokeruby.gba
 
-      - name: Launch ROM, advance past intro, and inspect the GBA viewport
+      - name: Launch ROM and advance through the intro with Start input
         shell: bash
         run: |
           set -euo pipefail
           export SDL_AUDIODRIVER=dummy
           export ROM_PATH="$PWD/pokeruby.gba"
           xvfb-run -a bash -euo pipefail -c '
-            mgba -l 15 "$ROM_PATH" > mgba-smoke.log 2>&1 &
+            mgba "$ROM_PATH" > mgba-smoke.log 2>&1 &
             emu_pid=$!
             cleanup() { kill "$emu_pid" 2>/dev/null || true; wait "$emu_pid" 2>/dev/null || true; }
             trap cleanup EXIT
-            # Capture the opening sequence before pressing Start.
-            sleep 15
-            import -window root mgba-before-start.png
-            convert mgba-before-start.png -crop 240x160+520+432 +repage mgba-intro-screen.png
-            # In mGBA the keyboard Return key maps to GBA Start. This attempts
-            # to skip the intro so we can verify more than the initial splash.
+            crop_screen() {
+              import -window root "$1-full.png"
+              convert "$1-full.png" -crop 240x160+520+432 +repage "$1.png"
+            }
+            sleep 12
+            crop_screen mgba-intro-screen
+            # Start is Return in the default mGBA keyboard mapping. Capture each
+            # step so we can inspect whether the intro advances to the title.
             xdotool key --clearmodifiers Return
-            sleep 5
-            import -window root mgba-screen.png
-            convert mgba-screen.png -crop 240x160+520+432 +repage mgba-game-screen.png
-            dimensions=$(identify -format "%wx%h" mgba-game-screen.png)
-            colors=$(identify -format "%k" mgba-game-screen.png)
-            echo "GBA viewport after Start: $dimensions; unique colors: $colors"
+            sleep 4
+            crop_screen mgba-after-start-1
+            xdotool key --clearmodifiers Return
+            sleep 4
+            crop_screen mgba-after-start-2
+            dimensions=$(identify -format "%wx%h" mgba-after-start-2.png)
+            colors=$(identify -format "%k" mgba-after-start-2.png)
+            echo "GBA viewport after two Start inputs: $dimensions; unique colors: $colors"
             cat mgba-smoke.log
             if [ "$colors" -lt 8 ] || [ "$dimensions" != "240x160" ]; then
               echo "FAIL: GBA viewport is blank or missing"
               exit 1
             fi
-            echo "PASS: mGBA rendered the GBA viewport and received a Start-button input."
+            echo "PASS: mGBA rendered the GBA viewport and accepted two Start inputs."
           '
 
       - name: Upload ROM and emulator evidence
@@ -84,9 +88,11 @@ jobs:
           path: |
             pokeruby.gba
             mgba-smoke.log
-            mgba-before-start.png
             mgba-intro-screen.png
-            mgba-screen.png
-            mgba-game-screen.png
+            mgba-intro-screen-full.png
+            mgba-after-start-1.png
+            mgba-after-start-1-full.png
+            mgba-after-start-2.png
+            mgba-after-start-2-full.png
           if-no-files-found: warn
           retention-days: 7
