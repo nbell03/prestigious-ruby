@@ -26,6 +26,7 @@ flags = read("include/constants/flags.h")
 damage = read("src/calculate_base_damage.c")
 field_moves = read("data/field_move_scripts.inc")
 field_avatar = read("src/field_control_avatar.c")
+pokemon_menu = read("src/pokemon_menu.c")
 surf_script = read("data/scripts/surf.inc")
 magma_text = read("data/maps/MeteorFalls_1F_1R/text.inc")
 
@@ -111,6 +112,12 @@ require("Surf, Dive, and Waterfall preserve acquisition gates",
         "FLAG_RECEIVED_HM_SURF" in field_avatar
         and "FLAG_RECEIVED_HM08" in field_avatar
         and "ITEM_HM07_WATERFALL" in field_avatar)
+require("Contextual party-menu HMs preserve badge gates",
+        "FLAG_BADGE05_GET" in pokemon_menu
+        and "FLAG_BADGE06_GET" in pokemon_menu
+        and "FLAG_BADGE07_GET" in pokemon_menu
+        and "FLAG_BADGE08_GET" in pokemon_menu
+        and "FLAG_BADGE01_GET" in pokemon_menu)
 require("Absol event and one-time state flag are present",
         "SPECIES_ABSOL, 5, ITEM_NONE" in gym_scripts
         and "VAR_PETALBURG_GYM_STATE, 2" in gym_scripts
