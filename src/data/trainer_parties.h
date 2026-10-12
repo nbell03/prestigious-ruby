@@ -4479,46 +4479,46 @@ const struct TrainerMonNoItemDefaultMoves gTrainerParty_Timmy[] = {
 
 const struct TrainerMonItemCustomMoves gTrainerParty_Steven[] = {
     {
-	.iv = 255,
-	.level = 57,
-	.species = SPECIES_SKARMORY,
-        .heldItem = ITEM_NONE,
-        .moves = MOVE_TOXIC, MOVE_AERIAL_ACE, MOVE_SPIKES, MOVE_STEEL_WING
+        .iv = 255,
+        .level = 68,
+        .species = SPECIES_REGIROCK,
+        .heldItem = ITEM_LEFTOVERS,
+        .moves = MOVE_ROCK_SLIDE, MOVE_EARTHQUAKE, MOVE_CURSE, MOVE_EXPLOSION
     },
     {
-	.iv = 255,
-	.level = 55,
-	.species = SPECIES_CLAYDOL,
-        .heldItem = ITEM_NONE,
-        .moves = MOVE_REFLECT, MOVE_LIGHT_SCREEN, MOVE_ANCIENT_POWER, MOVE_EARTHQUAKE
+        .iv = 255,
+        .level = 68,
+        .species = SPECIES_REGICE,
+        .heldItem = ITEM_CHESTO_BERRY,
+        .moves = MOVE_ICE_BEAM, MOVE_THUNDERBOLT, MOVE_AMNESIA, MOVE_REST
     },
     {
-	.iv = 255,
-	.level = 56,
-	.species = SPECIES_AGGRON,
-        .heldItem = ITEM_NONE,
-        .moves = MOVE_THUNDER, MOVE_EARTHQUAKE, MOVE_SOLAR_BEAM, MOVE_DRAGON_CLAW
+        .iv = 255,
+        .level = 68,
+        .species = SPECIES_REGISTEEL,
+        .heldItem = ITEM_LUM_BERRY,
+        .moves = MOVE_METAL_CLAW, MOVE_EARTHQUAKE, MOVE_IRON_DEFENSE, MOVE_TOXIC
     },
     {
-	.iv = 255,
-	.level = 56,
-	.species = SPECIES_CRADILY,
-        .heldItem = ITEM_NONE,
-        .moves = MOVE_GIGA_DRAIN, MOVE_ANCIENT_POWER, MOVE_SLUDGE_BOMB, MOVE_CONFUSE_RAY
+        .iv = 255,
+        .level = 67,
+        .species = SPECIES_NINJASK,
+        .heldItem = ITEM_BRIGHT_POWDER,
+        .moves = MOVE_SILVER_WIND, MOVE_SWORDS_DANCE, MOVE_BATON_PASS, MOVE_AERIAL_ACE
     },
     {
-	.iv = 255,
-	.level = 56,
-	.species = SPECIES_ARMALDO,
-        .heldItem = ITEM_NONE,
-        .moves = MOVE_WATER_PULSE, MOVE_ANCIENT_POWER, MOVE_AERIAL_ACE, MOVE_SLASH
+        .iv = 255,
+        .level = 67,
+        .species = SPECIES_DUSCLOPS,
+        .heldItem = ITEM_LEFTOVERS,
+        .moves = MOVE_SHADOW_BALL, MOVE_WILL_O_WISP, MOVE_CONFUSE_RAY, MOVE_PROTECT
     },
     {
-	.iv = 255,
-	.level = 58,
-	.species = SPECIES_METAGROSS,
+        .iv = 255,
+        .level = 67,
+        .species = SPECIES_SOLROCK,
         .heldItem = ITEM_SITRUS_BERRY,
-        .moves = MOVE_EARTHQUAKE, MOVE_PSYCHIC, MOVE_METEOR_MASH, MOVE_HYPER_BEAM
+        .moves = MOVE_PSYCHIC, MOVE_ROCK_SLIDE, MOVE_SUNNY_DAY, MOVE_SOLAR_BEAM
     }
 };
 
