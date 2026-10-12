@@ -80,7 +80,7 @@ require("Light Ball boosts both Pikachu attacking stats under the split",
         and "spAttack *= 2;" in damage[damage.find("HOLD_EFFECT_LIGHT_BALL"):damage.find("HOLD_EFFECT_THICK_CLUB")])
 
 require("Hidden Power keeps its type-dependent category",
-        "case MOVE_HIDDEN_POWER:" not in physical_cases
+        "case MOVE_HIDDEN_POWER:" in special_overrides
         and "default:" in physical_cases and "return type < TYPE_MYSTERY;" in physical_cases)
 
 require("Physical/special split classifies moves individually",
