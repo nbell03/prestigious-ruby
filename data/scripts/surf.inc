@@ -1,7 +1,5 @@
 EventScript_UseSurf:: @ 81A0117
-	checkpartymove MOVE_SURF
-	compare VAR_RESULT, PARTY_SIZE
-	goto_if_eq EventScript_EndUseSurf
+	setvar VAR_RESULT, 0
 	bufferpartymonnick 0, VAR_RESULT
 	setfieldeffectargument 0, VAR_RESULT
 	lockall

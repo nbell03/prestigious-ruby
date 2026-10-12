@@ -1,8 +1,8 @@
 #ifndef GUARD_BASE_STATS_H
 #define GUARD_BASE_STATS_H
 
-// Maximum value for a female Pokémon is 254 (MON_FEMALE) which is 100% female.
-// 255 (MON_GENDERLESS) is reserved for genderless Pokémon.
+// Maximum value for a female PokÃ©mon is 254 (MON_FEMALE) which is 100% female.
+// 255 (MON_GENDERLESS) is reserved for genderless PokÃ©mon.
 #define PERCENT_FEMALE(percent) min(254, ((percent * 255) / 100))
 #define OLD_UNOWN_BASE_STATS                \
     {                                       \
@@ -8377,10 +8377,10 @@ const struct BaseStats gBaseStats[] =
     [SPECIES_TREECKO] =
     {
         .baseHP        = 40,
-        .baseAttack    = 45,
+        .baseAttack    = 65,
         .baseDefense   = 35,
         .baseSpeed     = 70,
-        .baseSpAttack  = 65,
+        .baseSpAttack  = 45,
         .baseSpDefense = 55,
         .type1 = TYPE_GRASS,
         .type2 = TYPE_GRASS,
@@ -8410,10 +8410,10 @@ const struct BaseStats gBaseStats[] =
     [SPECIES_GROVYLE] =
     {
         .baseHP        = 50,
-        .baseAttack    = 65,
+        .baseAttack    = 85,
         .baseDefense   = 45,
         .baseSpeed     = 95,
-        .baseSpAttack  = 85,
+        .baseSpAttack  = 65,
         .baseSpDefense = 65,
         .type1 = TYPE_GRASS,
         .type2 = TYPE_GRASS,
@@ -8443,10 +8443,10 @@ const struct BaseStats gBaseStats[] =
     [SPECIES_SCEPTILE] =
     {
         .baseHP        = 70,
-        .baseAttack    = 85,
+        .baseAttack    = 105,
         .baseDefense   = 65,
         .baseSpeed     = 120,
-        .baseSpAttack  = 105,
+        .baseSpAttack  = 85,
         .baseSpDefense = 85,
         .type1 = TYPE_GRASS,
         .type2 = TYPE_GRASS,
@@ -11646,7 +11646,7 @@ const struct BaseStats gBaseStats[] =
         .baseHP        = 65,
         .baseAttack    = 130,
         .baseDefense   = 60,
-        .baseSpeed     = 75,
+        .baseSpeed     = 100,
         .baseSpAttack  = 75,
         .baseSpDefense = 60,
         .type1 = TYPE_DARK,

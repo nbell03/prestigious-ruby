@@ -1,0 +1,123 @@
+name: Prestigious Ruby build
+
+on:
+  push:
+    branches: [prestigious-ruby-dev]
+    paths-ignore:
+      - "PROJECT_STATUS.md"
+      - "docs/**"
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.sha }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Install GBA build dependencies and emulator test tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential git libpng-dev gcc-arm-none-eabi binutils-arm-none-eabi mgba-sdl xvfb xdotool imagemagick tesseract-ocr
+
+      - name: Build Pokémon Ruby
+        run: make -j2 modern
+
+      - name: Run Prestigious Ruby source regression checks
+        run: python3 tools/check_prestigious_features.py
+
+      - name: Check ROM output
+        run: |
+          set -euo pipefail
+          test -s pokeruby.gba
+          test "$(stat -c %s pokeruby.gba)" -eq 16777216
+          file pokeruby.gba
+          sha256sum pokeruby.gba
+
+      - name: Launch ROM and advance through the intro with Start input
+        shell: bash
+        run: |
+          set -euo pipefail
+          export SDL_AUDIODRIVER=dummy
+          export ROM_PATH="$PWD/pokeruby.gba"
+          xvfb-run -a bash -euo pipefail -c '
+            mgba "$ROM_PATH" > mgba-smoke.log 2>&1 &
+            emu_pid=$!
+            cleanup() { kill "$emu_pid" 2>/dev/null || true; wait "$emu_pid" 2>/dev/null || true; }
+            trap cleanup EXIT
+            crop_screen() {
+              import -window root "$1-full.png"
+              convert "$1-full.png" -crop 240x160+520+432 +repage "$1.png"
+            }
+            sleep 12
+            crop_screen mgba-intro-screen
+            # Start is Return in the default mGBA keyboard mapping. Check after
+            # every tap and stop as soon as the title menu appears; extra taps
+            # can select New Game and skip through its opening scenes.
+            found_menu=false
+            for n in 1 2 3 4 5 6 7 8; do
+              xdotool key --clearmodifiers Return
+              sleep 3
+              crop_screen "mgba-start-$n"
+              step_text=$(tesseract "mgba-start-$n.png" stdout 2>/dev/null | tr '[:lower:]' '[:upper:]')
+              echo "OCR after Start tap $n: $step_text"
+              if echo "$step_text" | grep -q "NEW GAME"; then
+                cp "mgba-start-$n.png" mgba-title-wait.png
+                found_menu=true
+                break
+              fi
+            done
+            dimensions=$(identify -format "%wx%h" mgba-title-wait.png)
+            colors=$(identify -format "%k" mgba-title-wait.png)
+            menu_text=$(tesseract mgba-title-wait.png stdout 2>/dev/null | tr '[:lower:]' '[:upper:]')
+            echo "GBA viewport at detected title menu: $dimensions; unique colors: $colors"
+            echo "OCR from title menu: $menu_text"
+            cat mgba-smoke.log
+            if [ "$found_menu" != true ] || [ "$colors" -lt 8 ] || [ "$dimensions" != "240x160" ]; then
+              echo "FAIL: title/menu screen not confirmed before advancing past it"
+              exit 1
+            fi
+            echo "PASS: title menu and NEW GAME option confirmed."
+            # mGBA's default keyboard mapping uses Z for the A button. Select New Game
+            # and capture the actual new-game opening instead of stopping at the menu.
+            xdotool key --clearmodifiers z
+            sleep 8
+            crop_screen mgba-new-game
+            new_game_text=$(tesseract mgba-new-game.png stdout 2>/dev/null | tr '[:lower:]' '[:upper:]')
+            new_game_colors=$(identify -format "%k" mgba-new-game.png)
+            echo "Screen after selecting New Game: $new_game_text (colors: $new_game_colors)"
+            if [ "$new_game_colors" -lt 8 ]; then
+              echo "FAIL: screen went blank after selecting New Game"
+              exit 1
+            fi
+            echo "PASS: selecting New Game produced a rendered screen."
+          '
+
+      - name: Upload ROM and emulator evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prestigious-ruby-emulator-smoke-test
+          path: |
+            pokeruby.gba
+            mgba-smoke.log
+            mgba-intro-screen.png
+            mgba-intro-screen-full.png
+            mgba-start-*.png
+            mgba-start-*-full.png
+            mgba-title-wait.png
+            mgba-title-check-full.png
+            mgba-new-game.png
+            mgba-new-game-full.png
+          if-no-files-found: warn
+          retention-days: 7

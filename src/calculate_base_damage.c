@@ -90,6 +90,87 @@ if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_BATTLE_TOWER | BATTLE_T
 } \
 })
 
+static bool8 IsMovePhysical(u32 move, u8 type)
+{
+    switch (move)
+    {
+    // Physical moves whose types were special before Generation IV.
+    case MOVE_FIRE_PUNCH:
+    case MOVE_FLAME_WHEEL:
+    case MOVE_BLAZE_KICK:
+    case MOVE_SACRED_FIRE:
+    case MOVE_WATERFALL:
+    case MOVE_CRABHAMMER:
+    case MOVE_DIVE:
+    case MOVE_CLAMP:
+    case MOVE_RAZOR_LEAF:
+    case MOVE_VINE_WHIP:
+    case MOVE_BULLET_SEED:
+    case MOVE_NEEDLE_ARM:
+    case MOVE_LEAF_BLADE:
+    case MOVE_THUNDER_PUNCH:
+    case MOVE_SPARK:
+    case MOVE_VOLT_TACKLE:
+    case MOVE_ICE_PUNCH:
+    case MOVE_ICE_BALL:
+    case MOVE_OUTRAGE:
+    case MOVE_DRAGON_CLAW:
+    case MOVE_BITE:
+    case MOVE_CRUNCH:
+    case MOVE_PURSUIT:
+    case MOVE_THIEF:
+    case MOVE_FAINT_ATTACK:
+    case MOVE_KNOCK_OFF:
+    case MOVE_BEAT_UP:
+    case MOVE_LICK:
+    case MOVE_SHADOW_PUNCH:
+    case MOVE_ASTONISH:
+    case MOVE_STEEL_WING:
+    case MOVE_METAL_CLAW:
+    case MOVE_METEOR_MASH:
+    case MOVE_IRON_TAIL:
+    case MOVE_POISON_FANG:
+    case MOVE_POISON_TAIL:
+        return TRUE;
+
+    // Special moves whose types were physical before Generation IV.
+    // Hidden Power is special in Generation IV regardless of its type.
+    case MOVE_HIDDEN_POWER:
+    case MOVE_RAZOR_WIND:
+    case MOVE_HYPER_BEAM:
+    case MOVE_SONIC_BOOM:
+    case MOVE_ACID:
+    case MOVE_SLUDGE:
+    case MOVE_SWIFT:
+    case MOVE_NIGHT_SHADE:
+    case MOVE_SMOG:
+    case MOVE_TRI_ATTACK:
+    case MOVE_SNORE:
+    case MOVE_GUST:
+    case MOVE_SHADOW_BALL:
+    case MOVE_AEROBLAST:
+    case MOVE_SLUDGE_BOMB:
+    case MOVE_MUD_SLAP:
+    case MOVE_AIR_CUTTER:
+    case MOVE_SILVER_WIND:
+    case MOVE_SIGNAL_BEAM:
+    case MOVE_MUD_SHOT:
+    case MOVE_ANCIENT_POWER:
+    case MOVE_DOOM_DESIRE:
+    case MOVE_WEATHER_BALL:
+    case MOVE_HYPER_VOICE:
+    case MOVE_UPROAR:
+        return FALSE;
+    default:
+        return type < TYPE_MYSTERY;
+    }
+}
+
+static bool8 IsMoveSpecial(u32 move, u8 type)
+{
+    return type != TYPE_MYSTERY && !IsMovePhysical(move, type);
+}
+
 s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *defender, u32 move, u16 sideStatus, u16 powerOverride, u8 typeOverride, u8 bankAtk, u8 bankDef)
 {
     u32 i;
@@ -153,15 +234,15 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         if (attackerHoldEffect == gHoldEffectToType[i][0]
             && type == gHoldEffectToType[i][1])
         {
-            if (IS_TYPE_PHYSICAL(type))
+            if (IsMovePhysical(move, type))
                 attack = (attack * (attackerHoldEffectParam + 100)) / 100;
-            else
+            else if (IsMoveSpecial(move, type))
                 spAttack = (spAttack * (attackerHoldEffectParam + 100)) / 100;
             break;
         }
     }
 
-    if (attackerHoldEffect == HOLD_EFFECT_CHOICE_BAND)
+    if (attackerHoldEffect == HOLD_EFFECT_CHOICE_BAND && IsMovePhysical(move, type))
         attack = (150 * attack) / 100;
     if (attackerHoldEffect == HOLD_EFFECT_SOUL_DEW && !(gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER) && (attacker->species == SPECIES_LATIAS || attacker->species == SPECIES_LATIOS))
         spAttack = (150 * spAttack) / 100;
@@ -172,13 +253,16 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     if (defenderHoldEffect == HOLD_EFFECT_DEEP_SEA_SCALE && defender->species == SPECIES_CLAMPERL)
         spDefense *= 2;
     if (attackerHoldEffect == HOLD_EFFECT_LIGHT_BALL && attacker->species == SPECIES_PIKACHU)
+    {
+        attack *= 2;
         spAttack *= 2;
+    }
     if (defenderHoldEffect == HOLD_EFFECT_METAL_POWDER && defender->species == SPECIES_DITTO)
         defense *= 2;
     if (attackerHoldEffect == HOLD_EFFECT_THICK_CLUB && (attacker->species == SPECIES_CUBONE || attacker->species == SPECIES_MAROWAK))
         attack *= 2;
     if (defender->ability == ABILITY_THICK_FAT && (type == TYPE_FIRE || type == TYPE_ICE))
-        spAttack /= 2;
+        gBattleMovePower /= 2;
     if (attacker->ability == ABILITY_HUSTLE)
         attack = (150 * attack) / 100;
     if (attacker->ability == ABILITY_PLUS && AbilityBattleEffects(ABILITYEFFECT_FIELD_SPORT, 0, ABILITY_MINUS, 0, 0))
@@ -204,7 +288,7 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     if (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION)
         defense /= 2;
 
-    if (IS_TYPE_PHYSICAL(type)) // type < TYPE_MYSTERY
+    if (IsMovePhysical(move, type)) // Move-based physical category
     {
         if (gCritMultiplier == 2)
         {
@@ -254,7 +338,7 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     if (type == TYPE_MYSTERY)
         damage = 0; // is ??? type. does 0 damage.
 
-    if (IS_TYPE_SPECIAL(type)) // type > TYPE_MYSTERY
+    if (IsMoveSpecial(move, type)) // Move-based special category
     {
         if (gCritMultiplier == 2)
         {
@@ -293,43 +377,36 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && gBattleMoves[move].target == 8 && CountAliveMons(2) == 2)
             damage /= 2;
 
-        // are effects of weather negated with cloud nine or air lock
+
+    }
+
+    // Weather and Flash Fire affect damaging moves of their type, regardless of category.
+    if (gBattleMovePower != 0)
+    {
         if (!AbilityBattleEffects(ABILITYEFFECT_FIELD_SPORT, 0, ABILITY_CLOUD_NINE, 0, 0)
             && !AbilityBattleEffects(ABILITYEFFECT_FIELD_SPORT, 0, ABILITY_AIR_LOCK, 0, 0))
         {
             if (gBattleWeather & B_WEATHER_RAIN_TEMPORARY)
             {
-                switch (type)
-                {
-                case TYPE_FIRE:
+                if (type == TYPE_FIRE)
                     damage /= 2;
-                    break;
-                case TYPE_WATER:
+                else if (type == TYPE_WATER)
                     damage = (15 * damage) / 10;
-                    break;
-                }
             }
 
-            // any weather except sun weakens solar beam
-            if ((gBattleWeather & (B_WEATHER_RAIN | B_WEATHER_SANDSTORM | B_WEATHER_HAIL_TEMPORARY)) && gCurrentMove == MOVE_SOLAR_BEAM)
+            if (move == MOVE_SOLAR_BEAM
+                && (gBattleWeather & (B_WEATHER_RAIN | B_WEATHER_SANDSTORM | B_WEATHER_HAIL_TEMPORARY)))
                 damage /= 2;
 
-            // sunny
             if (gBattleWeather & B_WEATHER_SUN)
             {
-                switch (type)
-                {
-                case TYPE_FIRE:
+                if (type == TYPE_FIRE)
                     damage = (15 * damage) / 10;
-                    break;
-                case TYPE_WATER:
+                else if (type == TYPE_WATER)
                     damage /= 2;
-                    break;
-                }
             }
         }
 
-        // flash fire triggered
         if ((eBattleFlagsArr.arr[bankAtk] & 1) && type == TYPE_FIRE)
             damage = (15 * damage) / 10;
     }

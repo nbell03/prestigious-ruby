@@ -4703,6 +4703,22 @@ const struct Trainer gTrainers[] = {
         .party = {.ItemCustomMoves = gTrainerParty_Steven }
     },
 
+    [TRAINER_BRANDON_POSTGAME] =
+    {
+        .partyFlags = F_TRAINER_PARTY_HELD_ITEM | F_TRAINER_PARTY_CUSTOM_MOVESET,
+        .trainerClass = TRAINER_CLASS_CHAMPION,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_STEVEN,
+        .trainerName = _("BRANDON"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = 0x7,
+        .partySize = 6,
+        .party = {.ItemCustomMoves = gTrainerParty_BrandonPostgame }
+    },
+
+
+
     [TRAINER_ANDREW] =
     {
         .partyFlags = 0,

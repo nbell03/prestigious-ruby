@@ -15,6 +15,7 @@
 #include "strings.h"
 #include "item_use.h"
 #include "item.h"
+#include "constants/items.h"
 #include "event_data.h"
 #include "mail.h"
 #include "field_player_avatar.h"
@@ -32,6 +33,7 @@
 #include "script.h"
 #include "constants/field_effects.h"
 #include "constants/moves.h"
+#include "constants/map_types.h"
 #include "constants/songs.h"
 
 /*
@@ -115,7 +117,7 @@ static bool8 SetUpFieldMove_Dive(void);
 
 EWRAM_DATA static u8 sPokeMenuCursorPos = 0;
 EWRAM_DATA static u8 sPokeMenuOptionsNo = 0;
-EWRAM_DATA static u8 sPokeMenuOptionsOrder[8] = {0}; // 4 possible field moves and 4 default options
+EWRAM_DATA static u8 sPokeMenuOptionsOrder[9] = {0}; // Up to 5 field moves and 4 default options
 
 // iwram common
 u8 gLastFieldPokeMenuOpened;
@@ -189,6 +191,46 @@ void sub_8089A70(void)
     OpenPartyMenu(PARTY_MENU_TYPE_STANDARD, 0);
 }
 
+static u8 GetContextualHmFieldMove(void)
+{
+    s16 x, y;
+
+    // The party menu exposes the relevant HM in context, even when the
+    // selected Pokemon does not know that move.
+    if (gMapHeader.mapType == MAP_TYPE_UNDERWATER)
+    {
+        if (FlagGet(FLAG_BADGE07_GET) == TRUE && FlagGet(FLAG_RECEIVED_HM08) == TRUE && TrySetDiveWarp())
+            return 6; // Dive
+        return 0xFF;
+    }
+
+    if (TestPlayerAvatarFlags(8) == TRUE)
+    {
+        GetXYCoordsOneStepInFrontOfPlayer(&x, &y);
+        if (MetatileBehavior_IsWaterfall(MapGridGetMetatileBehaviorAt(x, y)) == TRUE
+         && IsPlayerSurfingNorth() == TRUE
+         && FlagGet(FLAG_BADGE08_GET) == TRUE
+         && CheckBagHasItem(ITEM_HM07_WATERFALL, 1) == TRUE)
+            return 7; // Waterfall
+        if (FlagGet(FLAG_BADGE07_GET) == TRUE && FlagGet(FLAG_RECEIVED_HM08) == TRUE && TrySetDiveWarp())
+            return 6; // Dive
+        return 0xFF;
+    }
+
+    if (FlagGet(FLAG_BADGE05_GET) == TRUE && FlagGet(FLAG_RECEIVED_HM_SURF) == TRUE && IsPlayerFacingSurfableFishableWater() == TRUE)
+        return 4; // Surf
+
+    if (FlagGet(FLAG_BADGE02_GET) == TRUE && FlagGet(FLAG_RECEIVED_HM05) == TRUE && gMapHeader.mapType == MAP_TYPE_UNDERGROUND)
+        return 1; // Flash
+
+    if (FlagGet(FLAG_BADGE06_GET) == TRUE && FlagGet(FLAG_RECEIVED_HM02) == TRUE
+     && (ShouldDoBrailleFlyEffect() == TRUE
+      || Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) == TRUE))
+        return 5; // Fly
+
+    return 0xFF;
+}
+
 static void sub_8089A8C(void)
 {
     sPokeMenuOptionsNo = 0;
@@ -202,6 +244,8 @@ static void sub_8089A8C(void)
     else
     {
         u16 moveID, tableID;
+        u8 contextualHm, fieldID;
+        bool8 alreadyListed;
         for (moveID = 0; moveID < 4; moveID++) // 4, max number of possible field moves
         {
             for (tableID = 0; sPokeMenuFieldMoves[tableID] != sFieldMovesTerminator; tableID++)
@@ -214,6 +258,24 @@ static void sub_8089A8C(void)
                 }
             }
         }
+
+        contextualHm = GetContextualHmFieldMove();
+        if (contextualHm != 0xFF)
+        {
+            fieldID = contextualHm + POKEMENU_FIRST_FIELD_MOVE_ID;
+            alreadyListed = FALSE;
+            for (tableID = 0; tableID < sPokeMenuOptionsNo; tableID++)
+            {
+                if (sPokeMenuOptionsOrder[tableID] == fieldID)
+                {
+                    alreadyListed = TRUE;
+                    break;
+                }
+            }
+            if (!alreadyListed)
+                AppendToList(sPokeMenuOptionsOrder, &sPokeMenuOptionsNo, fieldID);
+        }
+
         AppendToList(sPokeMenuOptionsOrder, &sPokeMenuOptionsNo, POKEMENU_SUMMARY);
 
         // can't switch a pokemon if it's the only one in the party
@@ -814,7 +876,7 @@ static void sub_808AC2C(void)
 
 static bool8 SetUpFieldMove_Surf(void)
 {
-    if (PartyHasMonWithSurf() == TRUE && IsPlayerFacingSurfableFishableWater() == TRUE)
+    if (FlagGet(FLAG_BADGE05_GET) == TRUE && FlagGet(FLAG_RECEIVED_HM_SURF) == TRUE && IsPlayerFacingSurfableFishableWater() == TRUE)
     {
         gFieldCallback = FieldCallback_PrepareFadeInFromMenu;
         gPostMenuFieldCallback = sub_808AC2C;
@@ -832,6 +894,8 @@ static void sub_808AC8C(void)
 
 static bool8 SetUpFieldMove_Fly(void)
 {
+    if (FlagGet(FLAG_BADGE06_GET) != TRUE || FlagGet(FLAG_RECEIVED_HM02) != TRUE)
+        return FALSE;
     if (ShouldDoBrailleFlyEffect())
     {
         gFieldCallback = FieldCallback_PrepareFadeInFromMenu;
@@ -883,6 +947,8 @@ static void sub_808ADAC(void)
 
 static bool8 SetUpFieldMove_Dive(void)
 {
+    if (FlagGet(FLAG_BADGE07_GET) != TRUE || FlagGet(FLAG_RECEIVED_HM08) != TRUE)
+        return FALSE;
     gFieldEffectArguments[1] = TrySetDiveWarp();
     if (gFieldEffectArguments[1])
     {
@@ -905,7 +971,8 @@ static bool8 SetUpFieldMove_Waterfall(void)
     s16 x, y;
 
     GetXYCoordsOneStepInFrontOfPlayer(&x, &y);
-    if (MetatileBehavior_IsWaterfall(MapGridGetMetatileBehaviorAt(x, y)) == TRUE
+    if (FlagGet(FLAG_BADGE08_GET) == TRUE && CheckBagHasItem(ITEM_HM07_WATERFALL, 1) == TRUE
+     && MetatileBehavior_IsWaterfall(MapGridGetMetatileBehaviorAt(x, y)) == TRUE
      && IsPlayerSurfingNorth() == TRUE)
     {
         gFieldCallback = FieldCallback_PrepareFadeInFromMenu;
