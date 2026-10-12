@@ -22,15 +22,15 @@ Last updated: 2026-10-12
 - Brandon-related Cave of Origin scripts and dialogue labels are present on `prestigious-ruby-dev`. His current trainer party data has the requested six species (Regirock, Regice, Registeel, Ninjask, Dusclops, Solrock), with levels in the high 60s and custom moves/items. The trainer record is named BRANDON and uses the Champion class. This has not yet been verified in-game.
 - Fixed a missing assembly include for `data/maps/CaveOfOrigin_B4F/text.inc` in commit `e77c77b2e8b698982c3b2b039e529d21b4d1469b`, which was responsible for unresolved Brandon dialogue labels in an earlier link attempt.
 - Bullet Seed and Fury Cutter are set to 25 base power in `src/data/battle_moves.c` and retain `EFFECT_MULTI_HIT` and `EFFECT_FURY_CUTTER`.
-- A first implementation of move-based physical/special damage categories was committed in `37e3eed9ee6d8a52a12e90edcc01b97709420981` (`src/calculate_base_damage.c`). It categorizes moves by their Generation IV-style category rather than type, and updates related attack/defense, held-item, weather, and screen handling. This implementation still needs careful review and successful compilation/testing; it is not yet verified as correct.
+- A first implementation of move-based physical/special damage categories is in `src/calculate_base_damage.c`; it switches key Gen III moves to their Generation IV-style categories and updates related attack/defense, held-item, weather, and screen handling. A successful clean build was verified on commit `96009ac0b41ccb561645e791de25257d3d012915` (Actions run [38194470484](https://github.com/nbell03/prestigious-ruby/actions/runs/38194470484)). The category table still needs coverage review and gameplay testing.
 - GitHub Actions runs for the latest feature commit were still in progress at the last check. The custom build workflow had not reached its compile step yet, so no successful ROM build or ROM artifact has been confirmed.
-- Team Magma dialogue needs a focused audit. The Meteor Falls Maxie speech currently contains the land-expansion motivation and willingness to be judged harshly, but the requested later, more calculating response about the meteorite plan's danger still needs to be checked at the correct story event.
+- Updated Maxie's Slateport warning to explain the need for land for homes, farms, and future generations, while acknowledging the risk to nature and the cost of inaction. Updated his Meteor Falls speech to address the meteorite's uncertain power and his willingness to accept historical blame. These text changes still need in-game verification.
 - No successful ROM build or patch has been verified. Do not describe the game as finished or playable until CI produces a ROM artifact and it is checked.
 
 ## Next steps
-1. Check the latest GitHub Actions runs for the physical/special split and missing-dialogue-include fix; address compile/link errors before adding more features.
+1. Run CI on the latest dialogue/category corrections and fix any compile/link errors.
 2. Review the move-category implementation for move coverage and edge cases, including Thick Fat, screens, weather, critical hits, fixed-damage moves, and move/type overrides.
-3. Audit the correct Slateport and Meteor Falls story events for Maxie's revised dialogue, then strengthen selected major Team Magma battles without disrupting original progression.
+3. Verify Maxie's revised Slateport and Meteor Falls dialogue in-game and audit the existing strengthened Maxie battle levels; preserve original story progression.
 4. Confirm the Brandon event is accessible at the intended Cave of Origin location after the main story and that the encounter is the final postgame boss.
 5. Add/adjust tests where feasible, run a clean build, and inspect the produced ROM artifact.
 6. When the user later provides their clean Ruby ROM, create and verify the patch against the matching base revision; never commit or distribute the copyrighted ROM itself.

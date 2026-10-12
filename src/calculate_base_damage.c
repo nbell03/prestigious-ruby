@@ -107,6 +107,7 @@ static bool8 IsMovePhysical(u32 move, u8 type)
     case MOVE_VINE_WHIP:
     case MOVE_BULLET_SEED:
     case MOVE_NEEDLE_ARM:
+    case MOVE_LEAF_BLADE:
     case MOVE_THUNDER_PUNCH:
     case MOVE_SPARK:
     case MOVE_VOLT_TACKLE:
@@ -122,7 +123,6 @@ static bool8 IsMovePhysical(u32 move, u8 type)
     case MOVE_KNOCK_OFF:
     case MOVE_BEAT_UP:
     case MOVE_LICK:
-    case MOVE_SHADOW_BALL:
     case MOVE_SHADOW_PUNCH:
     case MOVE_ASTONISH:
     case MOVE_STEEL_WING:
@@ -144,6 +144,8 @@ static bool8 IsMovePhysical(u32 move, u8 type)
     case MOVE_SMOG:
     case MOVE_TRI_ATTACK:
     case MOVE_SNORE:
+    case MOVE_GUST:
+    case MOVE_SHADOW_BALL:
     case MOVE_AEROBLAST:
     case MOVE_SLUDGE_BOMB:
     case MOVE_MUD_SLAP:
