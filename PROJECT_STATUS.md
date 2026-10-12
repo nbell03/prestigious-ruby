@@ -82,7 +82,7 @@ Last updated: 2026-10-12
 - Added source regression checks for those exact late-Maxie party levels and corrected Python string escaping in the checks. Latest test-script commit: `e41bbc3c`. These checks are not yet confirmed passing in Actions.
 - User wants to wait until the full game is finished; do not ask them to test intermediate builds. Keep implementing features, then perform source/build verification and create the patch before offering it.
 
-- Split consistency checks: added assertions that the special-category helper is the inverse of physical classification and that no move appears in both explicit override groups. This catches contradictory switch cases as well as missing entries. Test commit: `PENDING_SHA`.
+- Split consistency checks: added assertions that the special-category helper is the inverse of physical classification and that no move appears in both explicit override groups. This catches contradictory switch cases as well as missing entries. Test commit: `29f4eba4`.
 
 - Category-test precision improvement: the physical move list is now checked only against the `return TRUE` override section, while special moves are checked only against the `return FALSE` section. A move listed in the wrong section can no longer satisfy a test just because its name appears somewhere in the helper. Test commit: `0fe2702d`.
 
