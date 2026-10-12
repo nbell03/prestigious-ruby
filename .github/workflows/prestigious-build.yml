@@ -29,6 +29,9 @@ jobs:
       - name: Build Pokémon Ruby
         run: make -j2 modern
 
+      - name: Run Prestigious Ruby source regression checks
+        run: python3 tools/check_prestigious_features.py
+
       - name: Check ROM output
         run: |
           test -s pokeruby.gba
