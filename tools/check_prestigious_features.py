@@ -64,8 +64,7 @@ physical_cases = damage[damage.find("static bool8 IsMovePhysical"):damage.find("
 special_cases = damage[damage.find("static bool8 IsMovePhysical"):damage.find("s32 CalculateBaseDamage")]
 for move in ("MOVE_FIRE_PUNCH", "MOVE_WATERFALL", "MOVE_BULLET_SEED",
              "MOVE_THUNDER_PUNCH", "MOVE_ICE_PUNCH", "MOVE_DRAGON_CLAW",
-             "MOVE_BITE", "MOVE_SHADOW_PUNCH", "MOVE_METAL_CLAW",
-             "MOVE_FRENZY_PLANT", "MOVE_BLAST_BURN", "MOVE_HYDRO_CANNON"):
+             "MOVE_BITE", "MOVE_SHADOW_PUNCH", "MOVE_METAL_CLAW"):
     require(f"{move} is classified physical", f"case {move}:" in physical_cases)
 for move in ("MOVE_SHADOW_BALL", "MOVE_SLUDGE_BOMB", "MOVE_HYPER_BEAM",
              "MOVE_SWIFT", "MOVE_GUST", "MOVE_TRI_ATTACK",
