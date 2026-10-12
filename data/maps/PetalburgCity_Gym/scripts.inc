@@ -84,7 +84,7 @@ PetalburgCity_Gym_EventScript_ReturnFromWallyTutorial:: @ 815456C
 	waitmovement 0
 	msgbox PetalburgCity_Gym_Text_DadGoCollectBadges, MSGBOX_DEFAULT
 	msgbox PetalburgCity_Gym_Text_NormanGivesAbsol, MSGBOX_DEFAULT
-	givepokemon SPECIES_ABSOL, 5
+	givepokemon SPECIES_ABSOL, 5, ITEM_NONE
 	setvar VAR_PETALBURG_GYM_STATE, 2
 	releaseall
 	end
