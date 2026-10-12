@@ -155,7 +155,6 @@ static bool8 IsMovePhysical(u32 move, u8 type)
     case MOVE_MUD_SHOT:
     case MOVE_ANCIENT_POWER:
     case MOVE_DOOM_DESIRE:
-    case MOVE_HIDDEN_POWER:
     case MOVE_WEATHER_BALL:
     case MOVE_HYPER_VOICE:
     case MOVE_UPROAR:
