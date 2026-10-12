@@ -33,7 +33,7 @@ Last updated: 2026-10-12
 - Updated Maxie's Slateport warning to explain the need for land for homes, farms, and future generations, while acknowledging the risk to nature and the cost of inaction. Updated his Meteor Falls speech to address the meteorite's uncertain power and his willingness to accept historical blame. These text changes still need in-game verification.
 - Evolution regression robustness: evolution checks now inspect the full evolution entry for each species, so secondary branches like Poliwhirl -> Politoed and Clamperl -> Gorebyss are checked even when a different evolution is listed first. This avoids false failures caused by assuming the target must be the first evolution in the table. Test commit: `7ab06fe6`; follow-up escape correction committed separately.
 
-- Regression test review: the move split uses explicit `return FALSE` exceptions inside `IsMovePhysical`, with `IsMoveSpecial` defined as its inverse. The test now checks the actual special-move exception block rather than expecting a separate switch. The evolution regex was also corrected to recognize entries with multiple evolution branches (Slowpoke, Poliwhirl, and Clamperl). These fixes address test-harness false negatives; CI confirmation is still needed.
+- Regression test review: the move split uses explicit `return FALSE` exceptions inside `IsMovePhysical`, with `IsMoveSpecial` defined as its inverse. The test checks the actual special-move exception block. Evolution regression checks inspect each species' full entry so secondary branches such as Poliwhirl -> Politoed and Clamperl -> Gorebyss are covered. Source assertions were reviewed after these corrections, but CI confirmation is still needed.
 
 - Regression harness fix: moved physical/special category extraction before the Hidden Power check that consumes those variables. Commit: `a49bc7c9`; subsequent category-test corrections are recorded below. CI verification remains pending.
 
@@ -56,7 +56,7 @@ Last updated: 2026-10-12
 
 - Physical/special compatibility fix: Light Ball now doubles both Pikachu's Attack and Special Attack, matching the Generation IV-era item behavior needed once Electric moves can be physical or special. Added a source regression check. Commit: `3273e371`; regression update committed separately. CI confirmation is still pending.
 
-- Team Magma story regression coverage: added checks for the actual Slateport Oceanic Museum Maxie warning, confirming it explains homes/farms/future generations, acknowledges the earth's balance and the risk of action, and argues that inaction has a cost. The test also confirms the text is linked from the museum event; Meteor Falls' separate meteorite/history speech is checked independently. Test commit: `PENDING_SHA`.
+- Team Magma story regression coverage: added checks for the actual Slateport Oceanic Museum Maxie warning, confirming it explains homes/farms/future generations, acknowledges the earth's balance and the risk of action, and argues that inaction has a cost. The test also confirms the text is linked from the museum event; Meteor Falls' separate meteorite/history speech is checked independently. Test commit: `8bd6514d`.
 
 - Move-category audit expanded: the automated split checks now cover more of Ruby's Gen III moves that changed category in Gen IV, including Vine Whip/Leaf Blade, Volt Tackle, Outrage, Dark/Ghost/Steel/Poison examples, and special Normal/Poison/Ground/Bug/Rock/Steel moves. This strengthens the source audit without changing move behavior. Test commit: `62213b1a`; full compile and gameplay checks remain required.
 
@@ -79,6 +79,8 @@ Last updated: 2026-10-12
 - Continued story/battle balance work: late Maxie party `gTrainerParty_Maxie2` now has Mightyena and Crobat at level 45 and Camerupt at level 48. This is a modest difficulty increase that keeps Ruby's existing three-Pokémon lineup and plot progression intact. Commit: `ee7fbd54`.
 - Added source regression checks for those exact late-Maxie party levels and corrected Python string escaping in the checks. Latest test-script commit: `e41bbc3c`. These checks are not yet confirmed passing in Actions.
 - User wants to wait until the full game is finished; do not ask them to test intermediate builds. Keep implementing features, then perform source/build verification and create the patch before offering it.
+
+- Latest regression suite expansion: split-category checks now validate special-move overrides in the correct helper block, Hidden Power remains special regardless of type, evolution checks cover secondary branches, and both Team Magma speeches are checked at their actual map paths (including the Slateport event reference). A manual source-level review of 101 corresponding feature assertions passed on the current source snapshots. This is not a substitute for the repository's actual CI build; no successful latest CI result or patch artifact has been confirmed.
 
 ## Next steps
 1. Trigger CI on the current branch tip and confirm the current workflow builds successfully without publishing the full ROM.
