@@ -58,6 +58,8 @@ Last updated: 2026-10-12
 - Regression script correction: fixed the new late-rival party check so it correctly extracts each party block before checking its evolved starter and level. Commit: `c653599d`.
 - User explicitly does not want to test interim builds. Do not suggest testing until the feature list is finished, the latest source checks pass, and a verified patch is available.
 
+- Team Magma battle progression: raised the later Tabitha party to levels 34/34/36 and Courtney's later party to 42/42, adding challenge to the admins leading into the final Maxie fight without changing party composition. Added source regression checks for these level targets. Code commit: `PENDING_SHA`; tests committed separately. CI and balance playtesting still needed.
+
 - Continued story/battle balance work: late Maxie party `gTrainerParty_Maxie2` now has Mightyena and Crobat at level 45 and Camerupt at level 48. This is a modest difficulty increase that keeps Ruby's existing three-Pokémon lineup and plot progression intact. Commit: `ee7fbd54`.
 - Added source regression checks for those exact late-Maxie party levels and corrected Python string escaping in the checks. Latest test-script commit: `e41bbc3c`. These checks are not yet confirmed passing in Actions.
 - User wants to wait until the full game is finished; do not ask them to test intermediate builds. Keep implementing features, then perform source/build verification and create the patch before offering it.
