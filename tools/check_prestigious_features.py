@@ -246,7 +246,7 @@ stats = read("src/data/pokemon/base_stats.h", encoding="latin-1")
 
 def stat_block(species):
     start = stats.find(f"[SPECIES_{species}]")
-    end = stats.find("\\n    [SPECIES_", start + 1)
+    end = stats.find("\n    [SPECIES_", start + 1)
     return stats[start:end] if start >= 0 and end >= 0 else ""
 
 for species, attack, special_attack in (
