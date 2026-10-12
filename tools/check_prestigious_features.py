@@ -95,8 +95,12 @@ require("Physical/special split classifies moves individually",
 require("Special category is the inverse of physical category",
         "return type != TYPE_MYSTERY && !IsMovePhysical(move, type);" in damage)
 damage_calc = damage[calc_start:]
-physical_damage_block = damage_calc[damage_calc.find("if (IsMovePhysical(move, type))"):damage_calc.find("if (IsMoveSpecial(move, type))")]
-special_damage_block = damage_calc[damage_calc.find("if (IsMoveSpecial(move, type))"):damage_calc.find("// Weather and Flash Fire")]
+physical_damage_start = damage_calc.find("if (IsMovePhysical(move, type)) // Move-based physical category")
+special_damage_start = damage_calc.find("if (IsMoveSpecial(move, type)) // Move-based special category")
+physical_damage_end = damage_calc.find("if (type == TYPE_MYSTERY)", physical_damage_start)
+special_damage_end = damage_calc.find("// Weather and Flash Fire", special_damage_start)
+physical_damage_block = damage_calc[physical_damage_start:physical_damage_end] if physical_damage_start >= 0 and physical_damage_end >= 0 else ""
+special_damage_block = damage_calc[special_damage_start:special_damage_end] if special_damage_start >= 0 and special_damage_end >= 0 else ""
 require("Physical damage uses Attack/Defense and Reflect",
         "attacker, attack, STAT_STAGE_ATK" in physical_damage_block
         and "defender, defense, STAT_STAGE_DEF" in physical_damage_block
