@@ -8241,17 +8241,17 @@ const struct TrainerMonNoItemDefaultMoves gTrainerParty_Tabitha1[] = {
 const struct TrainerMonNoItemDefaultMoves gTrainerParty_Tabitha2[] = {
     {
 	.iv = 50,
-	.level = 20,
+	.level = 22,
 	.species = SPECIES_NUMEL
     },
     {
 	.iv = 50,
-	.level = 20,
+	.level = 22,
 	.species = SPECIES_POOCHYENA
     },
     {
 	.iv = 50,
-	.level = 20,
+	.level = 22,
 	.species = SPECIES_NUMEL
     }
 };
@@ -8285,12 +8285,12 @@ const struct TrainerMonNoItemDefaultMoves gTrainerParty_Courtney1[] = {
 const struct TrainerMonNoItemDefaultMoves gTrainerParty_Courtney2[] = {
     {
 	.iv = 50,
-	.level = 38,
+	.level = 40,
 	.species = SPECIES_CAMERUPT
     },
     {
 	.iv = 50,
-	.level = 38,
+	.level = 40,
 	.species = SPECIES_MIGHTYENA
     }
 };
@@ -8298,12 +8298,12 @@ const struct TrainerMonNoItemDefaultMoves gTrainerParty_Courtney2[] = {
 const struct TrainerMonNoItemDefaultMoves gTrainerParty_Maxie2[] = {
     {
 	.iv = 150,
-	.level = 41,
+	.level = 46,
 	.species = SPECIES_MIGHTYENA
     },
     {
 	.iv = 150,
-	.level = 41,
+	.level = 43,
 	.species = SPECIES_CROBAT
     },
     {
@@ -9114,31 +9114,31 @@ const struct TrainerMonNoItemDefaultMoves gTrainerParty_Wally2[] = {
 const struct TrainerMonNoItemCustomMoves gTrainerParty_Wally3[] = {
     {
 	.iv = 150,
-	.level = 47,
+	.level = 49,
 	.species = SPECIES_ALTARIA,
         .moves = MOVE_AERIAL_ACE, MOVE_SAFEGUARD, MOVE_DRAGON_BREATH, MOVE_DRAGON_DANCE
     },
     {
 	.iv = 150,
-	.level = 46,
+	.level = 48,
 	.species = SPECIES_DELCATTY,
         .moves = MOVE_SING, MOVE_ASSIST, MOVE_CHARM, MOVE_FAINT_ATTACK
     },
     {
 	.iv = 150,
-	.level = 47,
+	.level = 49,
 	.species = SPECIES_ROSELIA,
         .moves = MOVE_MAGICAL_LEAF, MOVE_LEECH_SEED, MOVE_GIGA_DRAIN, MOVE_TOXIC
     },
     {
 	.iv = 150,
-	.level = 44,
+	.level = 46,
 	.species = SPECIES_MAGNETON,
         .moves = MOVE_SUPERSONIC, MOVE_THUNDERBOLT, MOVE_TRI_ATTACK, MOVE_SCREECH
     },
     {
 	.iv = 250,
-	.level = 48,
+	.level = 50,
 	.species = SPECIES_GARDEVOIR,
         .moves = MOVE_DOUBLE_TEAM, MOVE_CALM_MIND, MOVE_PSYCHIC, MOVE_FUTURE_SIGHT
     }
@@ -9147,31 +9147,31 @@ const struct TrainerMonNoItemCustomMoves gTrainerParty_Wally3[] = {
 const struct TrainerMonNoItemCustomMoves gTrainerParty_Wally4[] = {
     {
 	.iv = 150,
-	.level = 50,
+	.level = 52,
 	.species = SPECIES_ALTARIA,
         .moves = MOVE_AERIAL_ACE, MOVE_SAFEGUARD, MOVE_DRAGON_BREATH, MOVE_DRAGON_DANCE
     },
     {
 	.iv = 150,
-	.level = 49,
+	.level = 51,
 	.species = SPECIES_DELCATTY,
         .moves = MOVE_SING, MOVE_ASSIST, MOVE_CHARM, MOVE_FAINT_ATTACK
     },
     {
 	.iv = 150,
-	.level = 50,
+	.level = 52,
 	.species = SPECIES_ROSELIA,
         .moves = MOVE_MAGICAL_LEAF, MOVE_LEECH_SEED, MOVE_GIGA_DRAIN, MOVE_TOXIC
     },
     {
 	.iv = 150,
-	.level = 47,
+	.level = 49,
 	.species = SPECIES_MAGNETON,
         .moves = MOVE_SUPERSONIC, MOVE_THUNDERBOLT, MOVE_TRI_ATTACK, MOVE_SCREECH
     },
     {
 	.iv = 250,
-	.level = 51,
+	.level = 53,
 	.species = SPECIES_GARDEVOIR,
         .moves = MOVE_DOUBLE_TEAM, MOVE_CALM_MIND, MOVE_PSYCHIC, MOVE_FUTURE_SIGHT
     }
@@ -9180,31 +9180,31 @@ const struct TrainerMonNoItemCustomMoves gTrainerParty_Wally4[] = {
 const struct TrainerMonNoItemCustomMoves gTrainerParty_Wally5[] = {
     {
 	.iv = 150,
-	.level = 53,
+	.level = 55,
 	.species = SPECIES_ALTARIA,
         .moves = MOVE_AERIAL_ACE, MOVE_SAFEGUARD, MOVE_DRAGON_BREATH, MOVE_DRAGON_DANCE
     },
     {
 	.iv = 150,
-	.level = 52,
+	.level = 54,
 	.species = SPECIES_DELCATTY,
         .moves = MOVE_SING, MOVE_ASSIST, MOVE_CHARM, MOVE_FAINT_ATTACK
     },
     {
 	.iv = 150,
-	.level = 53,
+	.level = 55,
 	.species = SPECIES_ROSELIA,
         .moves = MOVE_MAGICAL_LEAF, MOVE_LEECH_SEED, MOVE_GIGA_DRAIN, MOVE_TOXIC
     },
     {
 	.iv = 150,
-	.level = 50,
+	.level = 52,
 	.species = SPECIES_MAGNETON,
         .moves = MOVE_SUPERSONIC, MOVE_THUNDERBOLT, MOVE_TRI_ATTACK, MOVE_SCREECH
     },
     {
 	.iv = 250,
-	.level = 54,
+	.level = 56,
 	.species = SPECIES_GARDEVOIR,
         .moves = MOVE_DOUBLE_TEAM, MOVE_CALM_MIND, MOVE_PSYCHIC, MOVE_FUTURE_SIGHT
     }
@@ -9213,31 +9213,31 @@ const struct TrainerMonNoItemCustomMoves gTrainerParty_Wally5[] = {
 const struct TrainerMonNoItemCustomMoves gTrainerParty_Wally6[] = {
     {
 	.iv = 150,
-	.level = 56,
+	.level = 58,
 	.species = SPECIES_ALTARIA,
         .moves = MOVE_AERIAL_ACE, MOVE_SAFEGUARD, MOVE_DRAGON_BREATH, MOVE_DRAGON_DANCE
     },
     {
 	.iv = 150,
-	.level = 55,
+	.level = 57,
 	.species = SPECIES_DELCATTY,
         .moves = MOVE_SING, MOVE_ASSIST, MOVE_CHARM, MOVE_FAINT_ATTACK
     },
     {
 	.iv = 150,
-	.level = 56,
+	.level = 58,
 	.species = SPECIES_ROSELIA,
         .moves = MOVE_MAGICAL_LEAF, MOVE_LEECH_SEED, MOVE_GIGA_DRAIN, MOVE_TOXIC
     },
     {
 	.iv = 150,
-	.level = 53,
+	.level = 55,
 	.species = SPECIES_MAGNETON,
         .moves = MOVE_SUPERSONIC, MOVE_THUNDERBOLT, MOVE_TRI_ATTACK, MOVE_SCREECH
     },
     {
 	.iv = 250,
-	.level = 57,
+	.level = 59,
 	.species = SPECIES_GARDEVOIR,
         .moves = MOVE_DOUBLE_TEAM, MOVE_CALM_MIND, MOVE_PSYCHIC, MOVE_FUTURE_SIGHT
     }
