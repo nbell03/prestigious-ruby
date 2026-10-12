@@ -62,8 +62,8 @@ for move in ("MOVE_FIRE_PUNCH", "MOVE_WATERFALL", "MOVE_BULLET_SEED",
              "MOVE_BITE", "MOVE_SHADOW_PUNCH", "MOVE_METAL_CLAW"):
     require(f"{move} is classified physical", f"case {move}:" in physical_cases)
 for move in ("MOVE_SHADOW_BALL", "MOVE_SLUDGE_BOMB", "MOVE_HYPER_BEAM",
-             "MOVE_ICY_WIND", "MOVE_DRAGON_BREATH", "MOVE_TWISTER",
-             "MOVE_HIDDEN_POWER", "MOVE_WEATHER_BALL"):
+             "MOVE_SWIFT", "MOVE_GUST", "MOVE_TRI_ATTACK",
+             "MOVE_AIR_CUTTER", "MOVE_MUD_SHOT", "MOVE_SNORE"):
     require(f"{move} is classified special", f"case {move}:" in special_cases)
 require("Brandon encounter is gated behind game clear",
         "CaveOfOrigin_B4F_EventScript_UpdateBrandonVisibility" in cave_scripts
