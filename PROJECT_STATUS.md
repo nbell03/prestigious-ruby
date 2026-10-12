@@ -15,28 +15,26 @@ Last updated: 2026-10-12
 - Brandon's team: Regirock, Regice, Registeel, Ninjask, Dusclops, and Solrock.
 - Remove Battle Frontier progression; Brandon's Cave of Origin battle is the final postgame boss.
 - Bullet Seed and Fury Cutter have 25 base power while retaining their original multi-hit / consecutive-use behavior.
-- Implement a move-based physical/special split.
+- Use a move-based physical/special split rather than the Generation III type-based categories.
 - Revise Team Magma to feel more compelling without changing the original Ruby progression: at Slateport, Maxie explains the desire for more land for homes, farms, and future generations while acknowledging the risks and believing inaction is worse; at Meteor Falls, he is more calculating, recognizes the meteorite plan's danger, and accepts history may judge him harshly. Strengthen selected major Team Magma battles.
-- Keep the intended game design and requested changes documented here as work progresses.
 
 ## Current implementation / verification snapshot
-- Brandon-related Cave of Origin scripts and dialogue labels are present on `prestigious-ruby-dev`. His current trainer party data has the requested six species (Regirock, Regice, Registeel, Ninjask, Dusclops, Solrock), with levels in the high 60s and custom moves/items. The trainer record is named BRANDON and uses the Champion class.
-- The latest known GitHub Actions build checked (run 38193309459, commit `3f5d570f7d584103a00091b933513007b7fd046e`) failed during linking with unresolved symbols for:
-  - `CaveOfOrigin_B4F_Text_BrandonIntro`
-  - `CaveOfOrigin_B4F_Text_BrandonDefeat`
-  - `CaveOfOrigin_B4F_Text_BrandonAfterBattle`
-- Root cause identified: `data/event_scripts.s` includes the Cave of Origin B4F scripts but did not include `data/maps/CaveOfOrigin_B4F/text.inc`. Added the missing text include in commit `e77c77b2e8b698982c3b2b039e529d21b4d1469b`; GitHub Actions run 38194037375 is building that fix.
-- Bullet Seed and Fury Cutter are already set to 25 base power in `src/data/battle_moves.c` and keep their existing effects (`EFFECT_MULTI_HIT` and `EFFECT_FURY_CUTTER`).
-- The move-based physical/special split has not yet been implemented or verified.
-- No successful ROM build or patch has been verified yet. Do not describe the game as finished or playable until CI produces a ROM artifact and it is checked.
+- Brandon-related Cave of Origin scripts and dialogue labels are present on `prestigious-ruby-dev`. His current trainer party data has the requested six species (Regirock, Regice, Registeel, Ninjask, Dusclops, Solrock), with levels in the high 60s and custom moves/items. The trainer record is named BRANDON and uses the Champion class. This has not yet been verified in-game.
+- Fixed a missing assembly include for `data/maps/CaveOfOrigin_B4F/text.inc` in commit `e77c77b2e8b698982c3b2b039e529d21b4d1469b`, which was responsible for unresolved Brandon dialogue labels in an earlier link attempt.
+- Bullet Seed and Fury Cutter are set to 25 base power in `src/data/battle_moves.c` and retain `EFFECT_MULTI_HIT` and `EFFECT_FURY_CUTTER`.
+- A first implementation of move-based physical/special damage categories was committed in `37e3eed9ee6d8a52a12e90edcc01b97709420981` (`src/calculate_base_damage.c`). It categorizes moves by their Generation IV-style category rather than type, and updates related attack/defense, held-item, weather, and screen handling. This implementation still needs careful review and successful compilation/testing; it is not yet verified as correct.
+- GitHub Actions runs for the latest feature commit were still in progress at the last check. The custom build workflow had not reached its compile step yet, so no successful ROM build or ROM artifact has been confirmed.
+- Team Magma dialogue needs a focused audit. The Meteor Falls Maxie speech currently contains the land-expansion motivation and willingness to be judged harshly, but the requested later, more calculating response about the meteorite plan's danger still needs to be checked at the correct story event.
+- No successful ROM build or patch has been verified. Do not describe the game as finished or playable until CI produces a ROM artifact and it is checked.
 
 ## Next steps
-1. Confirm GitHub Actions run 38194037375 passes after adding the missing dialogue include; fix any next build errors.
-2. Fix the Brandon dialogue/linking issue if it persists, then rerun until the build succeeds.
-3. Implement and test the move-based physical/special split; audit and refine the Magma storyline dialogue and strengthened major battles.
-4. Add/adjust tests and perform a clean build; test key event flow where feasible.
-5. Keep this file updated in the same commit as meaningful feature milestones and build/test results.
+1. Check the latest GitHub Actions runs for the physical/special split and missing-dialogue-include fix; address compile/link errors before adding more features.
+2. Review the move-category implementation for move coverage and edge cases, including Thick Fat, screens, weather, critical hits, fixed-damage moves, and move/type overrides.
+3. Audit the correct Slateport and Meteor Falls story events for Maxie's revised dialogue, then strengthen selected major Team Magma battles without disrupting original progression.
+4. Confirm the Brandon event is accessible at the intended Cave of Origin location after the main story and that the encounter is the final postgame boss.
+5. Add/adjust tests where feasible, run a clean build, and inspect the produced ROM artifact.
 6. When the user later provides their clean Ruby ROM, create and verify the patch against the matching base revision; never commit or distribute the copyrighted ROM itself.
+7. Keep this file updated in the same commit as meaningful feature milestones and build/test results.
 
 ## Working agreement
 - Save meaningful progress frequently with Git commits, and update this file when a milestone changes.
