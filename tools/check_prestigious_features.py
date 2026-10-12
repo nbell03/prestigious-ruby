@@ -90,6 +90,12 @@ require("Hidden Power remains special regardless of type",
 
 require("Physical/special split classifies moves individually",
         "static bool8 IsMovePhysical" in damage and "static bool8 IsMoveSpecial" in damage)
+require("Special category is the inverse of physical category",
+        "return type != TYPE_MYSTERY && !IsMovePhysical(move, type);" in damage)
+physical_move_overrides = set(re.findall(r"case (MOVE_[A-Z0-9_]+):", physical_overrides))
+special_move_overrides = set(re.findall(r"case (MOVE_[A-Z0-9_]+):", special_overrides))
+require("No move is explicitly listed in both category override groups",
+        physical_move_overrides.isdisjoint(special_move_overrides))
 for move in ("MOVE_FIRE_PUNCH", "MOVE_WATERFALL", "MOVE_BULLET_SEED",
              "MOVE_VINE_WHIP", "MOVE_NEEDLE_ARM", "MOVE_LEAF_BLADE",
              "MOVE_THUNDER_PUNCH", "MOVE_SPARK", "MOVE_VOLT_TACKLE",
