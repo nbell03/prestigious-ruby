@@ -55,6 +55,8 @@ for species, level, target in (
     ("SPECIES_SLOWPOKE", 36, "SPECIES_SLOWKING"),
     ("SPECIES_POLIWHIRL", 36, "SPECIES_POLITOED"),
     ("SPECIES_CLAMPERL", 36, "SPECIES_HUNTAIL"),
+    ("SPECIES_CLAMPERL", 36, "SPECIES_GOREBYSS"),
+    ("SPECIES_PORYGON", 36, "SPECIES_PORYGON2"),
 ):
     pattern = rf"\[{species}\]\s*=\s*\{{\{{EVO_LEVEL,\s*{level},\s*{target}\}}"
     require(f"{species} evolves at level {level}", bool(re.search(pattern, evolutions)))
