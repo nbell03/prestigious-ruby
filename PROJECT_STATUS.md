@@ -56,6 +56,8 @@ Last updated: 2026-10-12
 
 - Physical/special compatibility fix: Light Ball now doubles both Pikachu's Attack and Special Attack, matching the Generation IV-era item behavior needed once Electric moves can be physical or special. Added a source regression check. Commit: `3273e371`; regression update committed separately. CI confirmation is still pending.
 
+- Team Magma story regression coverage: added checks for the actual Slateport Oceanic Museum Maxie warning, confirming it explains homes/farms/future generations, acknowledges the earth's balance and the risk of action, and argues that inaction has a cost. The test also confirms the text is linked from the museum event; Meteor Falls' separate meteorite/history speech is checked independently. Test commit: `PENDING_SHA`.
+
 - Move-category audit expanded: the automated split checks now cover more of Ruby's Gen III moves that changed category in Gen IV, including Vine Whip/Leaf Blade, Volt Tackle, Outrage, Dark/Ghost/Steel/Poison examples, and special Normal/Poison/Ground/Bug/Rock/Steel moves. This strengthens the source audit without changing move behavior. Test commit: `62213b1a`; full compile and gameplay checks remain required.
 
 - Physical/special split audit advanced: expanded the regression script to check representative moves that changed category in Generation IV (physical Fire/Water/Grass/Electric/Ice/Dragon/Dark/Ghost/Steel/Poison and special Normal/Flying/Poison/Ground/Ghost/Bug moves). Corrected the special-category tests to check only moves that actually require explicit reclassification; unchanged Ice/Dragon special moves correctly fall through to the type default. These checks are committed but still need a successful CI run and gameplay validation.
