@@ -94,9 +94,9 @@ require("Team Magma dialogue references Maxie and the meteorite",
 # Late Maxie is a key Ruby antagonist battle and should remain a meaningful challenge.
 for party, levels in (("Tabitha1", (34, 34, 36)), ("Courtney2", (42, 42))):
     start = trainers.find(f"gTrainerParty_{party}[] = {{")
-    end = trainers.find("\\n};", start)
+    end = trainers.find("\n};", start)
     block = trainers[start:end] if start >= 0 and end >= 0 else ""
-    found_levels = tuple(int(level) for level in re.findall(r"\\.level = (\\d+),", block))
+    found_levels = tuple(int(level) for level in re.findall(r"\.level = (\d+),", block))
     require(f"Team Magma admin party {party} has revised levels", found_levels == levels)
 
 maxie2_start = trainers.find("gTrainerParty_Maxie2[] = {")
