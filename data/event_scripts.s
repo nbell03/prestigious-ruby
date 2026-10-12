@@ -1684,3 +1684,4 @@ Text_1C6C62: @ 81C6C62
 
 	.include "data/text/save.inc"
 	.include "data/text/birch_speech.inc"
+	.include "data/maps/CaveOfOrigin_B4F/text.inc"
