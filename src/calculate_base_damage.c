@@ -131,10 +131,6 @@ static bool8 IsMovePhysical(u32 move, u8 type)
     case MOVE_IRON_TAIL:
     case MOVE_POISON_FANG:
     case MOVE_POISON_TAIL:
-    // Hoenn starter signature moves became physical in the Gen IV split.
-    case MOVE_FRENZY_PLANT:
-    case MOVE_BLAST_BURN:
-    case MOVE_HYDRO_CANNON:
         return TRUE;
 
     // Special moves whose types were physical before Generation IV.
