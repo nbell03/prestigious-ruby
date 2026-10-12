@@ -115,7 +115,7 @@ CaveOfOrigin_B4F_EventScript_Brandon::
 	faceplayer
 	playbgm MUS_ENCOUNTER_CHAMPION, FALSE
 	msgbox CaveOfOrigin_B4F_Text_BrandonIntro, MSGBOX_DEFAULT
-	trainerbattle_no_intro TRAINER_STEVEN, CaveOfOrigin_B4F_Text_BrandonDefeat
+	trainerbattle_no_intro TRAINER_BRANDON_POSTGAME, CaveOfOrigin_B4F_Text_BrandonDefeat
 	setflag FLAG_DEFEATED_BRANDON_CAVE_OF_ORIGIN
 	setflag FLAG_HIDE_BRANDON_CAVE_OF_ORIGIN
 	msgbox CaveOfOrigin_B4F_Text_BrandonAfterBattle, MSGBOX_DEFAULT
