@@ -20,6 +20,8 @@ def read(path):
 moves = read("src/data/battle_moves.c")
 evolutions = read("src/data/pokemon/evolution.h")
 trainers = read("src/data/trainer_parties.h")
+trainer_records = read("src/data/trainers_en.h")
+trainer_ids = read("include/constants/opponents.h")
 cave_scripts = read("data/maps/CaveOfOrigin_B4F/scripts.inc")
 cave_map = read("data/maps/CaveOfOrigin_B4F/map.json")
 gym_scripts = read("data/maps/PetalburgCity_Gym/scripts.inc")
@@ -154,10 +156,17 @@ for species, level in (("SPECIES_MIGHTYENA", 45),
                        ("SPECIES_CAMERUPT", 48)):
     require(f"Late Maxie battle has {species} at level {level}",
             f".level = {level},\n\t.species = {species}" in maxie2_party)
-brandon_party_start = trainers.find("gTrainerParty_Steven[]")
+brandon_party_start = trainers.find("gTrainerParty_BrandonPostgame[]")
 brandon_party_end = trainers.find("\n};", brandon_party_start)
 brandon_party = trainers[brandon_party_start:brandon_party_end] if brandon_party_start >= 0 and brandon_party_end >= 0 else ""
 require("Brandon party definition exists", brandon_party_start >= 0 and brandon_party_end >= 0)
+require("Brandon has a dedicated trainer ID", "#define TRAINER_BRANDON_POSTGAME 694" in trainer_ids)
+require("Brandon trainer record uses his own party", "[TRAINER_BRANDON_POSTGAME]" in trainer_records
+        and '.trainerName = _("BRANDON")' in trainer_records
+        and ".partySize = 6" in trainer_records
+        and "gTrainerParty_BrandonPostgame" in trainer_records)
+require("Steven remains the original champion", '.trainerName = _("STEVEN")' in trainer_records
+        and ".party = {.ItemCustomMoves = gTrainerParty_Steven }" in trainer_records)
 require("Brandon has exactly six Pokémon", len(re.findall(r"\.species = SPECIES_", brandon_party)) == 6)
 for species in ("SPECIES_REGIROCK", "SPECIES_REGICE", "SPECIES_REGISTEEL",
                 "SPECIES_NINJASK", "SPECIES_DUSCLOPS", "SPECIES_SOLROCK"):
