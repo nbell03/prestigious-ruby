@@ -83,6 +83,8 @@ PetalburgCity_Gym_EventScript_ReturnFromWallyTutorial:: @ 815456C
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFastestUp
 	waitmovement 0
 	msgbox PetalburgCity_Gym_Text_DadGoCollectBadges, MSGBOX_DEFAULT
+	msgbox PetalburgCity_Gym_Text_NormanGivesAbsol, MSGBOX_DEFAULT
+	givepokemon SPECIES_ABSOL, 5
 	setvar VAR_PETALBURG_GYM_STATE, 2
 	releaseall
 	end
