@@ -67,7 +67,9 @@ physical_start = damage.find("static bool8 IsMovePhysical")
 special_start = damage.find("static bool8 IsMoveSpecial", physical_start)
 calc_start = damage.find("s32 CalculateBaseDamage", special_start)
 physical_cases = damage[physical_start:special_start]
-special_cases = damage[special_start:calc_start]
+special_override_start = damage.find("// Special moves whose types were physical before Generation IV.", physical_start)
+special_override_end = damage.find("return FALSE;", special_override_start)
+special_overrides = damage[special_override_start:special_override_end]
 
 require("Light Ball boosts both Pikachu attacking stats under the split",
         "HOLD_EFFECT_LIGHT_BALL" in damage
@@ -75,7 +77,7 @@ require("Light Ball boosts both Pikachu attacking stats under the split",
         and "spAttack *= 2;" in damage[damage.find("HOLD_EFFECT_LIGHT_BALL"):damage.find("HOLD_EFFECT_THICK_CLUB")])
 
 require("Hidden Power keeps its type-dependent category",
-        "case MOVE_HIDDEN_POWER:" not in special_cases
+        "case MOVE_HIDDEN_POWER:" not in physical_cases
         and "default:" in physical_cases and "return type < TYPE_MYSTERY;" in physical_cases)
 
 require("Physical/special split classifies moves individually",
@@ -96,7 +98,7 @@ for move in ("MOVE_SHADOW_BALL", "MOVE_SLUDGE_BOMB", "MOVE_HYPER_BEAM",
              "MOVE_ACID", "MOVE_SLUDGE", "MOVE_SMOG", "MOVE_MUD_SLAP",
              "MOVE_MUD_SHOT", "MOVE_SNORE", "MOVE_SILVER_WIND",
              "MOVE_SIGNAL_BEAM", "MOVE_ANCIENT_POWER", "MOVE_DOOM_DESIRE"):
-    require(f"{move} is classified special", f"case {move}:" in special_cases)
+    require(f"{move} is classified special", f"case {move}:" in special_overrides)
 require("Brandon encounter is gated behind game clear",
         "CaveOfOrigin_B4F_EventScript_UpdateBrandonVisibility" in cave_scripts
         and "FLAG_SYS_GAME_CLEAR" in cave_scripts
