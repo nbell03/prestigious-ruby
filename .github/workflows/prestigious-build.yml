@@ -70,17 +70,17 @@ jobs:
               sleep 3
               crop_screen "mgba-start-$n"
             done
-            # Also capture a stable screen after all opening scenes have had time to run.
-            sleep 12
+            # Capture promptly after the six input taps; prolonged idle time was causing a blank viewport in CI.
+            sleep 3
             crop_screen mgba-title-wait
-            dimensions=$(identify -format "%wx%h" mgba-title-wait.png)
+            dimensions=$(identify -format "%wx%h" mgba-title-check.png)
             colors=$(identify -format "%k" mgba-title-wait.png)
             menu_text=$(tesseract mgba-title-wait.png stdout 2>/dev/null | tr '[:lower:]' '[:upper:]')
-            echo "GBA viewport after six Start taps and title wait: $dimensions; unique colors: $colors"
+            echo "GBA viewport shortly after six Start taps: $dimensions; unique colors: $colors"
             echo "OCR from stable menu screen: $menu_text"
             cat mgba-smoke.log
             if [ "$colors" -lt 8 ] || [ "$dimensions" != "240x160" ]; then
-              echo "FAIL: GBA viewport is blank or missing"
+              echo "FAIL: GBA viewport is blank or missing shortly after input"
               exit 1
             fi
             if ! echo "$menu_text" | grep -q "NEW GAME"; then
@@ -116,7 +116,7 @@ jobs:
             mgba-start-*.png
             mgba-start-*-full.png
             mgba-title-wait.png
-            mgba-title-wait-full.png
+            mgba-title-check-full.png
             mgba-new-game.png
             mgba-new-game-full.png
           if-no-files-found: warn
