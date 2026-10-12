@@ -117,7 +117,7 @@ require("Contextual party-menu HMs preserve badge gates",
         and "FLAG_BADGE06_GET" in pokemon_menu
         and "FLAG_BADGE07_GET" in pokemon_menu
         and "FLAG_BADGE08_GET" in pokemon_menu
-        and "FLAG_BADGE01_GET" in pokemon_menu)
+        and "FLAG_BADGE02_GET" in pokemon_menu)
 require("Absol event and one-time state flag are present",
         "SPECIES_ABSOL, 5, ITEM_NONE" in gym_scripts
         and "VAR_PETALBURG_GYM_STATE, 2" in gym_scripts
