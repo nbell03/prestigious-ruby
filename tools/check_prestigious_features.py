@@ -78,12 +78,21 @@ require("Hidden Power keeps its type-dependent category",
 require("Physical/special split classifies moves individually",
         "static bool8 IsMovePhysical" in damage and "static bool8 IsMoveSpecial" in damage)
 for move in ("MOVE_FIRE_PUNCH", "MOVE_WATERFALL", "MOVE_BULLET_SEED",
-             "MOVE_THUNDER_PUNCH", "MOVE_ICE_PUNCH", "MOVE_DRAGON_CLAW",
-             "MOVE_BITE", "MOVE_SHADOW_PUNCH", "MOVE_METAL_CLAW"):
+             "MOVE_VINE_WHIP", "MOVE_NEEDLE_ARM", "MOVE_LEAF_BLADE",
+             "MOVE_THUNDER_PUNCH", "MOVE_SPARK", "MOVE_VOLT_TACKLE",
+             "MOVE_ICE_PUNCH", "MOVE_ICE_BALL", "MOVE_DRAGON_CLAW",
+             "MOVE_OUTRAGE", "MOVE_BITE", "MOVE_CRUNCH", "MOVE_PURSUIT",
+             "MOVE_THIEF", "MOVE_KNOCK_OFF", "MOVE_SHADOW_PUNCH",
+             "MOVE_LICK", "MOVE_ASTONISH", "MOVE_METAL_CLAW",
+             "MOVE_STEEL_WING", "MOVE_POISON_FANG", "MOVE_POISON_TAIL"):
     require(f"{move} is classified physical", f"case {move}:" in physical_cases)
 for move in ("MOVE_SHADOW_BALL", "MOVE_SLUDGE_BOMB", "MOVE_HYPER_BEAM",
-             "MOVE_SWIFT", "MOVE_GUST", "MOVE_TRI_ATTACK",
-             "MOVE_AIR_CUTTER", "MOVE_MUD_SHOT", "MOVE_SNORE"):
+             "MOVE_RAZOR_WIND", "MOVE_SONIC_BOOM", "MOVE_SWIFT",
+             "MOVE_GUST", "MOVE_TRI_ATTACK", "MOVE_HYPER_VOICE",
+             "MOVE_UPROAR", "MOVE_WEATHER_BALL", "MOVE_AIR_CUTTER",
+             "MOVE_ACID", "MOVE_SLUDGE", "MOVE_SMOG", "MOVE_MUD_SLAP",
+             "MOVE_MUD_SHOT", "MOVE_SNORE", "MOVE_SILVER_WIND",
+             "MOVE_SIGNAL_BEAM", "MOVE_ANCIENT_POWER", "MOVE_DOOM_DESIRE"):
     require(f"{move} is classified special", f"case {move}:" in special_cases)
 require("Brandon encounter is gated behind game clear",
         "CaveOfOrigin_B4F_EventScript_UpdateBrandonVisibility" in cave_scripts
