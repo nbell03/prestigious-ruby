@@ -14,8 +14,8 @@ checks = []
 def require(label, ok, detail=""):
     checks.append((label, bool(ok), detail))
 
-def read(path):
-    return (ROOT / path).read_text(encoding="utf-8")
+def read(path, encoding="utf-8"):
+    return (ROOT / path).read_text(encoding=encoding)
 
 moves = read("src/data/battle_moves.c")
 evolutions = read("src/data/pokemon/evolution.h")
@@ -238,6 +238,29 @@ for party, species in (("Brendan10", "SPECIES_SCEPTILE"),
     block = trainers[start:end] if start >= 0 and end >= 0 else ""
     require(f"Later rival party {party} has fully evolved starter",
             species in block and ".level = 38" in block)
+
+
+# Stat rebalance regression checks. This source file includes legacy text bytes,
+# so read it as Latin-1 to keep the check robust across host locales.
+stats = read("src/data/pokemon/base_stats.h", encoding="latin-1")
+
+def stat_block(species):
+    start = stats.find(f"[SPECIES_{species}]")
+    end = stats.find("\\n    [SPECIES_", start + 1)
+    return stats[start:end] if start >= 0 and end >= 0 else ""
+
+for species, attack, special_attack in (
+    ("TREECKO", 65, 45),
+    ("GROVYLE", 85, 65),
+    ("SCEPTILE", 105, 85),
+):
+    block = stat_block(species)
+    require(f"{species} has the requested physical/special stat rebalance",
+            bool(re.search(rf"\.baseAttack\s*=\s*{attack}\b", block))
+            and bool(re.search(rf"\.baseSpAttack\s*=\s*{special_attack}\b", block)))
+
+require("Absol has the requested Speed buff",
+        bool(re.search(r"\.baseSpeed\s*=\s*100\b", stat_block("ABSOL"))))
 
 failed = 0
 for label, ok, detail in checks:
