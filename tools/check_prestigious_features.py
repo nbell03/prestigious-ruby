@@ -106,6 +106,19 @@ require("Absol event and one-time state flag are present",
         and "VAR_PETALBURG_GYM_STATE, 2" in gym_scripts
         and "PetalburgCity_Gym_EventScript_ReturnFromWallyTutorial" in gym_scripts)
 
+# The later rival encounter has a fully evolved starter in each starter matchup.
+for party, species in (("Brendan10", "SPECIES_SCEPTILE"),
+                       ("Brendan11", "SPECIES_BLAZIKEN"),
+                       ("Brendan12", "SPECIES_SWAMPERT"),
+                       ("May10", "SPECIES_SCEPTILE"),
+                       ("May11", "SPECIES_BLAZIKEN"),
+                       ("May12", "SPECIES_SWAMPERT")):
+    start = trainers.find(f"gTrainerParty_{party}[] = {{")
+    end = trainers.find("\\n};", start)
+    block = trainers[start:end] if start >= 0 and end >= 0 else ""
+    require(f"Later rival party {party} has fully evolved starter",
+            species in block and ".level = 38" in block)
+
 failed = 0
 for label, ok, detail in checks:
     print(f"[{'PASS' if ok else 'FAIL'}] {label}" + (f" — {detail}" if detail else ""))
