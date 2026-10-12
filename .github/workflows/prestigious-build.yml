@@ -63,24 +63,25 @@ jobs:
             crop_screen mgba-intro-screen
             # Start is Return in the default mGBA keyboard mapping. Capture each
             # step so we can inspect whether the intro advances to the title.
-            xdotool key --clearmodifiers Return
-            sleep 4
-            crop_screen mgba-after-start-1
-            xdotool key --clearmodifiers Return
+            # Send several deliberate Start taps: the Ruby intro contains
+            # multiple timed scenes, so two early presses may only advance the logo.
+            for n in 1 2 3 4 5 6; do
+              xdotool key --clearmodifiers Return
+              sleep 3
+              crop_screen "mgba-start-$n"
+            done
+            # Also capture a stable screen after all opening scenes have had time to run.
             sleep 12
-            crop_screen mgba-after-start-2
-            # Let the title-screen animation finish, then capture it separately.
-            sleep 10
             crop_screen mgba-title-wait
             dimensions=$(identify -format "%wx%h" mgba-title-wait.png)
             colors=$(identify -format "%k" mgba-title-wait.png)
-            echo "GBA viewport after intro and title wait: $dimensions; unique colors: $colors"
+            echo "GBA viewport after six Start taps and title wait: $dimensions; unique colors: $colors"
             cat mgba-smoke.log
             if [ "$colors" -lt 8 ] || [ "$dimensions" != "240x160" ]; then
               echo "FAIL: GBA viewport is blank or missing"
               exit 1
             fi
-            echo "PASS: mGBA rendered the GBA viewport after the intro and title wait."
+            echo "PASS: mGBA rendered the GBA viewport after six Start taps and the title wait."
           '
 
       - name: Upload ROM and emulator evidence
@@ -93,10 +94,8 @@ jobs:
             mgba-smoke.log
             mgba-intro-screen.png
             mgba-intro-screen-full.png
-            mgba-after-start-1.png
-            mgba-after-start-1-full.png
-            mgba-after-start-2.png
-            mgba-after-start-2-full.png
+            mgba-start-*.png
+            mgba-start-*-full.png
             mgba-title-wait.png
             mgba-title-wait-full.png
           if-no-files-found: warn
