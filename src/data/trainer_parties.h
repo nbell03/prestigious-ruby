@@ -4525,42 +4525,42 @@ const struct TrainerMonItemCustomMoves gTrainerParty_Steven[] = {
 const struct TrainerMonItemCustomMoves gTrainerParty_BrandonPostgame[] = {
     {
         .iv = 255,
-        .level = 68,
+        .level = 70,
         .species = SPECIES_REGIROCK,
         .heldItem = ITEM_LEFTOVERS,
         .moves = MOVE_ROCK_SLIDE, MOVE_EARTHQUAKE, MOVE_CURSE, MOVE_EXPLOSION
     },
     {
         .iv = 255,
-        .level = 68,
+        .level = 70,
         .species = SPECIES_REGICE,
         .heldItem = ITEM_CHESTO_BERRY,
         .moves = MOVE_ICE_BEAM, MOVE_THUNDERBOLT, MOVE_AMNESIA, MOVE_REST
     },
     {
         .iv = 255,
-        .level = 68,
+        .level = 70,
         .species = SPECIES_REGISTEEL,
         .heldItem = ITEM_LUM_BERRY,
         .moves = MOVE_METAL_CLAW, MOVE_EARTHQUAKE, MOVE_IRON_DEFENSE, MOVE_TOXIC
     },
     {
         .iv = 255,
-        .level = 67,
+        .level = 68,
         .species = SPECIES_NINJASK,
         .heldItem = ITEM_BRIGHT_POWDER,
         .moves = MOVE_SILVER_WIND, MOVE_SWORDS_DANCE, MOVE_BATON_PASS, MOVE_AERIAL_ACE
     },
     {
         .iv = 255,
-        .level = 67,
+        .level = 68,
         .species = SPECIES_DUSCLOPS,
         .heldItem = ITEM_LEFTOVERS,
         .moves = MOVE_SHADOW_BALL, MOVE_WILL_O_WISP, MOVE_CONFUSE_RAY, MOVE_PROTECT
     },
     {
         .iv = 255,
-        .level = 67,
+        .level = 68,
         .species = SPECIES_SOLROCK,
         .heldItem = ITEM_SITRUS_BERRY,
         .moves = MOVE_PSYCHIC, MOVE_ROCK_SLIDE, MOVE_SUNNY_DAY, MOVE_SOLAR_BEAM
