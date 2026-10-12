@@ -61,6 +61,8 @@ for species, level, target in (
     pattern = rf"\[{species}\]\s*=\s*\{{\{{EVO_LEVEL,\s*{level},\s*{target}\}}"
     require(f"{species} evolves at level {level}", bool(re.search(pattern, evolutions)))
 
+require("No trade-triggered evolution methods remain", "EVO_TRADE" not in evolutions)
+
 require("Light Ball boosts both Pikachu attacking stats under the split",
         "HOLD_EFFECT_LIGHT_BALL" in damage
         and "attack *= 2;" in damage[damage.find("HOLD_EFFECT_LIGHT_BALL"):damage.find("HOLD_EFFECT_THICK_CLUB")]
