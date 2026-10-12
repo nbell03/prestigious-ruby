@@ -21,6 +21,7 @@ moves = read("src/data/battle_moves.c")
 evolutions = read("src/data/pokemon/evolution.h")
 trainers = read("src/data/trainer_parties.h")
 cave_scripts = read("data/maps/CaveOfOrigin_B4F/scripts.inc")
+cave_map = read("data/maps/CaveOfOrigin_B4F/map.json")
 gym_scripts = read("data/maps/PetalburgCity_Gym/scripts.inc")
 flags = read("include/constants/flags.h")
 damage = read("src/calculate_base_damage.c")
@@ -114,6 +115,9 @@ require("Brandon battle uses Steven's original encounter slot",
 require("Brandon encounter has intro and post-battle dialogue",
         "CaveOfOrigin_B4F_Text_BrandonIntro" in cave_scripts
         and "CaveOfOrigin_B4F_Text_BrandonAfterBattle" in cave_scripts)
+require("Brandon map object uses the intended Cave of Origin slot",
+        '"script": "CaveOfOrigin_B4F_EventScript_Brandon"' in cave_map
+        and '"flag": "FLAG_HIDE_BRANDON_CAVE_OF_ORIGIN"' in cave_map)
 require("Slateport Maxie speech explains the land goal",
         "People need land for homes, farms" in slateport_magma_text
         and "generations who will follow us" in slateport_magma_text)
