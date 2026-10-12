@@ -69,8 +69,9 @@ require("HM field scripts retain badge progression checks",
         "CannotUseCut" in field_moves and "CannotUseRockSmash" in field_moves
         and "FLAG_BADGE01_GET" in field_moves and "FLAG_BADGE03_GET" in field_moves)
 require("Absol event and one-time state flag are present",
-        "Absol" in gym_scripts and "givemon" in gym_scripts
-        and "FLAG_GOT_NORMAN_ABSOL" in flags and "FLAG_GOT_NORMAN_ABSOL" in gym_scripts)
+        "SPECIES_ABSOL, 5, ITEM_NONE" in gym_scripts
+        and "VAR_PETALBURG_GYM_STATE, 2" in gym_scripts
+        and "PetalburgCity_Gym_EventScript_ReturnFromWallyTutorial" in gym_scripts)
 
 failed = 0
 for label, ok, detail in checks:
