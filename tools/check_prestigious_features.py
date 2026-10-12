@@ -162,12 +162,19 @@ brandon_party_end = trainers.find("\n};", brandon_party_start)
 brandon_party = trainers[brandon_party_start:brandon_party_end] if brandon_party_start >= 0 and brandon_party_end >= 0 else ""
 require("Brandon party definition exists", brandon_party_start >= 0 and brandon_party_end >= 0)
 require("Brandon has a dedicated trainer ID", "#define TRAINER_BRANDON_POSTGAME 694" in trainer_ids)
-require("Brandon trainer record uses his own party", "[TRAINER_BRANDON_POSTGAME]" in trainer_records
-        and '.trainerName = _("BRANDON")' in trainer_records
-        and ".partySize = 6" in trainer_records
-        and "gTrainerParty_BrandonPostgame" in trainer_records)
-require("Steven remains the original champion", '.trainerName = _("STEVEN")' in trainer_records
-        and ".party = {.ItemCustomMoves = gTrainerParty_Steven }" in trainer_records)
+brandon_record_start = trainer_records.find("[TRAINER_BRANDON_POSTGAME] =")
+brandon_record_end = trainer_records.find("\n    },", brandon_record_start)
+brandon_record = trainer_records[brandon_record_start:brandon_record_end] if brandon_record_start >= 0 and brandon_record_end >= 0 else ""
+steven_record_start = trainer_records.find("[TRAINER_STEVEN] =")
+steven_record_end = trainer_records.find("\n    },", steven_record_start)
+steven_record = trainer_records[steven_record_start:steven_record_end] if steven_record_start >= 0 and steven_record_end >= 0 else ""
+require("Brandon trainer record uses his own six-member party",
+        '.trainerName = _("BRANDON")' in brandon_record
+        and ".partySize = 6" in brandon_record
+        and "gTrainerParty_BrandonPostgame" in brandon_record)
+require("Steven remains the original champion",
+        '.trainerName = _("STEVEN")' in steven_record
+        and ".party = {.ItemCustomMoves = gTrainerParty_Steven }" in steven_record)
 require("Brandon has exactly six Pokémon", len(re.findall(r"\.species = SPECIES_", brandon_party)) == 6)
 for species in ("SPECIES_REGIROCK", "SPECIES_REGICE", "SPECIES_REGISTEEL",
                 "SPECIES_NINJASK", "SPECIES_DUSCLOPS", "SPECIES_SOLROCK"):
