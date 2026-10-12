@@ -82,6 +82,8 @@ Last updated: 2026-10-12
 - Added source regression checks for those exact late-Maxie party levels and corrected Python string escaping in the checks. Latest test-script commit: `e41bbc3c`. These checks are not yet confirmed passing in Actions.
 - User wants to wait until the full game is finished; do not ask them to test intermediate builds. Keep implementing features, then perform source/build verification and create the patch before offering it.
 
+- Category-test precision improvement: the physical move list is now checked only against the `return TRUE` override section, while special moves are checked only against the `return FALSE` section. A move listed in the wrong section can no longer satisfy a test just because its name appears somewhere in the helper. Test commit: `PENDING_SHA`.
+
 - Latest regression suite expansion: split-category checks now validate special-move overrides in the correct helper block, Hidden Power remains special regardless of type, evolution checks cover secondary branches, and both Team Magma speeches are checked at their actual map paths (including the Slateport event reference). A manual source-level review of 101 corresponding feature assertions passed on the current source snapshots. This is not a substitute for the repository's actual CI build; no successful latest CI result or patch artifact has been confirmed.
 
 ## Next steps
