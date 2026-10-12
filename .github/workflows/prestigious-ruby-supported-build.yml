@@ -1,0 +1,55 @@
+name: Prestigious Ruby supported-toolchain build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [toolchain-recovery]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout Prestigious Ruby source
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential git libpng-dev gcc-arm-none-eabi binutils-arm-none-eabi
+
+      - name: Checkout legacy agbcc compiler
+        uses: actions/checkout@v4
+        with:
+          repository: pret/agbcc
+          path: agbcc
+
+      - name: Build and install agbcc
+        working-directory: agbcc
+        run: |
+          ./build.sh
+          ./install.sh ../
+
+      - name: Clean and build Ruby with supported legacy compiler
+        run: |
+          make clean
+          make ruby -j"$(nproc)" COMPARE=0
+
+      - name: Check generated ROM file
+        run: |
+          set -euo pipefail
+          test -f pokeruby.gba
+          test "$(stat -c %s pokeruby.gba)" -eq 16777216
+          sha1sum pokeruby.gba
+          file pokeruby.gba
+
+      - name: Upload candidate ROM for testing
+        uses: actions/upload-artifact@v4
+        with:
+          name: prestigious-ruby-supported-toolchain-candidate
+          path: pokeruby.gba
+          if-no-files-found: error
+          retention-days: 7
