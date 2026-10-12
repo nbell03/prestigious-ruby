@@ -51,6 +51,9 @@ Last updated: 2026-10-12
 - Added regression checks for the fully evolved starter in all six late rival party variants. Commit: `c897c721`. These tests and the latest build still require CI confirmation; do not treat the party changes as playtested.
 - The custom build run triggered after workflow fixes was queued but did not yield a completed job result in the latest check. Continue monitoring; no release patch is ready yet.
 
+- Regression script correction: fixed the new late-rival party check so it correctly extracts each party block before checking its evolved starter and level. Commit: `c653599d`.
+- User explicitly does not want to test interim builds. Do not suggest testing until the feature list is finished, the latest source checks pass, and a verified patch is available.
+
 ## Next steps
 1. Trigger CI on the current branch tip and confirm the current workflow builds successfully without publishing the full ROM.
 2. Review the move-category implementation for move coverage and edge cases, including Thick Fat, screens, weather, critical hits, fixed-damage moves, and move/type overrides.
