@@ -2,11 +2,11 @@
 
 ## Latest verification update (2026-10-12)
 
-- **Modern GCC build:** GitHub Actions run [38261227929](https://github.com/nbell03/prestigious-ruby/actions/runs/38261227929) completed successfully on commit `c2542fdbc4851984f31fadb3d517a9361c53fc13`. Compilation, source regression checks, and ROM output validation passed.
-- **Supported legacy agbcc build:** run [38261227954](https://github.com/nbell03/prestigious-ruby/actions/runs/38261227954) also completed successfully on the same commit. The legacy toolchain, modified ROM build, source regression checks, and ROM size/header validation passed.
-- **Emulator evidence:** prior mGBA captures show the actual 240×160 Pokémon Ruby intro scene (including the cycling scene), not a white/blank screen. This confirms rendering and that the opening sequence progresses. It does **not** yet prove the title menu, starting a new game, or end-to-end playability.
-- **Current emulator run:** [38261222688](https://github.com/nbell03/prestigious-ruby/actions/runs/38261222688) is rebuilding the current commit and will capture six separate Start presses and a later screen. Its build step is still in progress; do not report this run as passed until it finishes.
-- **Patch status:** no candidate patch is considered release-ready yet. A BPS round-trip/CRC check alone is insufficient; the ROM must pass stronger boot progression checks and the user-requested features need broader validation. Any patch must target the exact supplied `RubyUSA1.0.gba` base.
+- **Modern GCC build:** GitHub Actions run [38261227929](https://github.com/nbell03/prestigious-ruby/actions/runs/38261227929) passed compilation, source regression checks, and ROM output validation on commit `c2542fdbc4851984f31fadb3d517a9361c53fc13`.
+- **Supported legacy agbcc build:** run [38261227954](https://github.com/nbell03/prestigious-ruby/actions/runs/38261227954) also passed on that commit, including the modified ROM build, regression suite, and ROM size/header validation.
+- **Emulator boot milestone:** run [38261222688](https://github.com/nbell03/prestigious-ruby/actions/runs/38261222688) passed the build, regression, and mGBA smoke-test steps. I inspected its actual screenshots: the game reaches the Pokémon Ruby title screen and then the menu showing **NEW GAME / OPTION**. This is a stronger result than the earlier intro-only test.
+- **New Game verification:** workflow commit `c71bfbee13967c463793d2274156fd16babfba34` now OCR-checks for the NEW GAME menu and presses mGBA's default A-button key to start a game, then captures the next screen. Run [38261792351](https://github.com/nbell03/prestigious-ruby/actions/runs/38261792351) is in progress; its result has not yet been confirmed.
+- **Patch status:** no candidate patch is considered release-ready yet. The title menu is confirmed, but new-game progression, actual gameplay, and full feature behavior still need stronger validation. Any patch must target the exact supplied `RubyUSA1.0.gba` base; BPS CRC/round-trip checks alone are not enough.
 - **No interim testing request:** the user prefers not to be asked to test intermediate builds. Continue internal verification and only offer a candidate after stronger evidence is available.
 
 Last updated: 2026-10-12
