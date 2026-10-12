@@ -29,6 +29,8 @@ field_avatar = read("src/field_control_avatar.c")
 pokemon_menu = read("src/pokemon_menu.c")
 surf_script = read("data/scripts/surf.inc")
 magma_text = read("data/maps/MeteorFalls_1F_1R/text.inc")
+slateport_magma_text = read("data/maps/SlateportCity_OceanicMuseum_2F/text.inc")
+slateport_magma_scripts = read("data/maps/SlateportCity_OceanicMuseum_2F/scripts.inc")
 
 def move_entry(name):
     match = re.search(r"\[" + re.escape(name) + r"\]\s*=\s*\{(.*?)\n\s*\},", moves, re.S)
@@ -112,10 +114,17 @@ require("Brandon battle uses Steven's original encounter slot",
 require("Brandon encounter has intro and post-battle dialogue",
         "CaveOfOrigin_B4F_Text_BrandonIntro" in cave_scripts
         and "CaveOfOrigin_B4F_Text_BrandonAfterBattle" in cave_scripts)
-require("Team Magma dialogue retains land goal",
-        "homes of future generations" in magma_text)
-require("Team Magma dialogue references Maxie and the meteorite",
-        "MAXIE" in magma_text and "METEORITE" in magma_text)
+require("Slateport Maxie speech explains the land goal",
+        "People need land for homes, farms" in slateport_magma_text
+        and "generations who will follow us" in slateport_magma_text)
+require("Slateport Maxie speech acknowledges risk and inaction",
+        "earth has a delicate balance" in slateport_magma_text
+        and "cost is greater than the danger" in slateport_magma_text)
+require("Slateport Maxie speech is connected to its event",
+        "SlateportCity_OceanicMuseum_2F_Text_MaxieWarning" in slateport_magma_scripts)
+require("Meteor Falls Maxie dialogue references the meteorite",
+        "MAXIE" in magma_text and "METEORITE" in magma_text
+        and "history remembers me as a villain" in magma_text)
 
 # Late Maxie is a key Ruby antagonist battle and should remain a meaningful challenge.
 for party, levels in (("Tabitha1", (34, 34, 36)), ("Courtney2", (42, 42))):
