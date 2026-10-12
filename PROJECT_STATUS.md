@@ -88,6 +88,8 @@ Last updated: 2026-10-12
 
 - Category-test precision improvement: the physical move list is now checked only against the `return TRUE` override section, while special moves are checked only against the `return FALSE` section. A move listed in the wrong section can no longer satisfy a test just because its name appears somewhere in the helper. Test commit: `0fe2702d`.
 
+- Build workflow reliability: changed the concurrency group to include the commit SHA, so a queued build for one source revision is not superseded by a later revision in the same branch. The workflow still ignores status-only/docs commits and does not upload the full ROM. Workflow commit: `1578d3d7`; the new run has not yet been confirmed successful.
+
 - Latest regression suite expansion: split-category checks now validate special-move overrides in the correct helper block, Hidden Power remains special regardless of type, evolution checks cover secondary branches, and both Team Magma speeches are checked at their actual map paths (including the Slateport event reference). A manual source-level review of 107 corresponding feature assertions passed on the current source snapshots, including the later checks for contradictory move overrides and Brandon's exact six-Pokémon party. This is not a substitute for the repository's actual CI build; no successful latest CI result or patch artifact has been confirmed.
 
 ## Next steps
