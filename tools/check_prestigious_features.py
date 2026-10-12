@@ -63,8 +63,11 @@ for species, level, target in (
 
 require("No trade-triggered evolution methods remain", "EVO_TRADE" not in evolutions)
 
-physical_cases = damage[damage.find("static bool8 IsMovePhysical"):damage.find("static bool8 IsMoveSpecial")]
-special_cases = damage[damage.find("static bool8 IsMovePhysical"):damage.find("s32 CalculateBaseDamage")]
+physical_start = damage.find("static bool8 IsMovePhysical")
+special_start = damage.find("static bool8 IsMoveSpecial", physical_start)
+calc_start = damage.find("s32 CalculateBaseDamage", special_start)
+physical_cases = damage[physical_start:special_start]
+special_cases = damage[special_start:calc_start]
 
 require("Light Ball boosts both Pikachu attacking stats under the split",
         "HOLD_EFFECT_LIGHT_BALL" in damage
