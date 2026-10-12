@@ -44,7 +44,7 @@ jobs:
           file pokeruby.gba
           sha256sum pokeruby.gba
 
-      - name: Launch ROM in mGBA and inspect rendered screen
+      - name: Launch ROM in mGBA and inspect the GBA viewport
         shell: bash
         run: |
           set -euo pipefail
@@ -55,24 +55,23 @@ jobs:
             emu_pid=$!
             cleanup() { kill "$emu_pid" 2>/dev/null || true; wait "$emu_pid" 2>/dev/null || true; }
             trap cleanup EXIT
-            sleep 10
-            echo "--- X11 window tree ---"
-            xwininfo -root -tree || true
-            echo "--- mGBA process ---"
-            ps -p "$emu_pid" -o pid=,stat=,args= || true
-            cat mgba-smoke.log
-            # Capture the whole virtual display so the test does not depend on
-            # a particular title-bar string used by different mGBA builds.
+            # Ruby begins with a green Rayquaza intro animation; allow it time to render.
+            sleep 20
             import -window root mgba-screen.png
-            dimensions=$(identify -format "%wx%h" mgba-screen.png)
-            colors=$(identify -format "%k" mgba-screen.png)
-            echo "Virtual display screenshot: $dimensions; unique colors: $colors"
-            # Fail if no emulator UI/game content is rendered (near-solid display).
-            if [ "$colors" -lt 32 ]; then
-              echo "FAIL: virtual display appears blank or nearly blank"
+            # In this headless mGBA configuration, the 240x160 GBA output is
+            # centered in the 1280x1024 virtual desktop at x=520,y=432.
+            convert mgba-screen.png -crop 240x160+520+432 +repage mgba-game-screen.png
+            dimensions=$(identify -format "%wx%h" mgba-game-screen.png)
+            colors=$(identify -format "%k" mgba-game-screen.png)
+            nonblack=$(convert mgba-game-screen.png -format "%[fx:mean]" info:)
+            echo "GBA viewport: $dimensions; unique colors: $colors; mean brightness: $nonblack"
+            cat mgba-smoke.log
+            # Check the actual 240x160 game output, not the black Xvfb margins.
+            if [ "$colors" -lt 8 ] || [ "$(identify -format "%wx%h" mgba-game-screen.png)" != "240x160" ]; then
+              echo "FAIL: GBA viewport is blank or missing"
               exit 1
             fi
-            echo "PASS: mGBA remained alive and rendered a nonblank display for 10 seconds."
+            echo "PASS: mGBA rendered the GBA viewport after 20 seconds."
           '
 
       - name: Upload ROM and emulator evidence
@@ -84,5 +83,6 @@ jobs:
             pokeruby.gba
             mgba-smoke.log
             mgba-screen.png
+            mgba-game-screen.png
           if-no-files-found: warn
           retention-days: 7
