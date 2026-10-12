@@ -32,17 +32,17 @@ Last updated: 2026-10-12
 - GitHub Actions runs for the latest feature commit were still in progress at the last check. The custom build workflow had not reached its compile step yet, so no successful ROM build or ROM artifact has been confirmed.
 - Updated Maxie's Slateport warning to explain the need for land for homes, farms, and future generations, while acknowledging the risk to nature and the cost of inaction. Updated his Meteor Falls speech to address the meteorite's uncertain power and his willingness to accept historical blame. These text changes still need in-game verification.
 - The current evolution table already contains the requested Aron/Lairon/Aggron, Vibrava/Flygon, and Shelgon/Salamence levels, and several standard trade evolutions already use level 36. Audit every trade-based evolution, especially held-item trade evolutions, for complete coverage. These values have not yet been validated in a successful ROM build.
-- The Absol gift event is not yet confirmed in source and remains to be implemented or verified.
-- HM field scripts still check for a party member knowing the move in multiple obstacle scripts; the party-move requirement must be removed while preserving badges and existing obstacle logic.
-- No successful ROM build or patch has been verified. Do not describe the game as finished or playable until CI produces a ROM artifact and it is checked.
+- The Absol gift event is present in `data/maps/PetalburgCity_Gym/scripts.inc`: Norman gives a level-5 Absol after Wally's tutorial, and the gym-state variable prevents repeat gifts. The script uses `givemon`, which routes a gift to storage when the party is full; this still needs gameplay verification.
+- HM access is being changed so Cut, Rock Smash, and Strength obstacle interactions no longer require a matching move in the party, while badge checks remain. Surf, Fly, Flash, Dive, and Waterfall are being exposed contextually from the party menu and use the selected Pokémon only for animation.
+- A clean source build succeeded on commit `be1384e9be7897363ca7903604949f70e77355da` (Actions run [38194767589](https://github.com/nbell03/prestigious-ruby/actions/runs/38194767589)); it produced a ROM artifact. The workflow is being changed to verify builds without uploading the full copyrighted ROM. No patch has been created or verified yet.
 
 ## Next steps
-1. Run CI on the latest dialogue/category corrections and fix any compile/link errors.
+1. Run CI on the HM-access changes, confirm the source still builds, and inspect the output-check step.
 2. Review the move-category implementation for move coverage and edge cases, including Thick Fat, screens, weather, critical hits, fixed-damage moves, and move/type overrides.
 3. Verify Maxie's revised Slateport and Meteor Falls dialogue in-game and audit the existing strengthened Maxie battle levels; preserve original story progression.
 4. Confirm the Brandon event is accessible at the intended Cave of Origin location after the main story and that the encounter is the final postgame boss.
-5. Add/adjust tests where feasible, run a clean build, and inspect the produced ROM artifact.
-6. When the user later provides their clean Ruby ROM, create and verify the patch against the matching base revision; never commit or distribute the copyrighted ROM itself.
+5. Review all eight HMs, badge gates, contextual menu behavior, and evolution branches; test in-game where feasible.
+6. When the user later provides their clean Ruby ROM, create and verify a patch against the matching base revision; do not upload or distribute the full ROM.
 7. Keep this file updated in the same commit as meaningful feature milestones and build/test results.
 
 ## Working agreement

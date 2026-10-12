@@ -1,9 +1,7 @@
 S_CuttableTree:: @ 81B0DCC
 	lockall
 	goto_if_unset FLAG_BADGE01_GET, CannotUseCut
-	checkpartymove MOVE_CUT
-	compare VAR_RESULT, 6
-	goto_if_eq CannotUseCut
+	setvar VAR_RESULT, 0
 	setfieldeffectargument 0, VAR_RESULT
 	bufferpartymonnick 0, VAR_RESULT
 	buffermovename 1, MOVE_CUT
@@ -58,9 +56,7 @@ CannotUseCutText: @ 81B0E8E
 S_BreakableRock:: @ 81B0EB7
 	lockall
 	goto_if_unset FLAG_BADGE03_GET, CannotUseRockSmash
-	checkpartymove MOVE_ROCK_SMASH
-	compare VAR_RESULT, 6
-	goto_if_eq CannotUseRockSmash
+	setvar VAR_RESULT, 0
 	setfieldeffectargument 0, VAR_RESULT
 	bufferpartymonnick 0, VAR_RESULT
 	buffermovename 1, MOVE_ROCK_SMASH
@@ -125,9 +121,7 @@ S_PushableBoulder:: @ 81B0FCB
 	lockall
 	goto_if_unset FLAG_BADGE04_GET, CannotUseStrength
 	goto_if_set FLAG_SYS_USE_STRENGTH, AlreadyUsedStrength
-	checkpartymove 70
-	compare VAR_RESULT, 6
-	goto_if_eq CannotUseStrength
+	setvar VAR_RESULT, 0
 	setfieldeffectargument 0, VAR_RESULT
 	msgbox UseStrengthPromptText, MSGBOX_YESNO
 	compare VAR_RESULT, NO
@@ -146,6 +140,8 @@ S_UseStrength:: @ 81B100E
 	end
 
 UsedStrength: @ 81B1019
+	setvar VAR_RESULT, 0
+	bufferpartymonnick 0, VAR_RESULT
 	setflag FLAG_SYS_USE_STRENGTH
 	msgbox UsedStrengthText, MSGBOX_SIGN
 	releaseall
@@ -186,9 +182,7 @@ AlreadyUsedStrengthText: @ 81B1127
 
 S_UseWaterfall:: @ 81B115A
 	lockall
-	checkpartymove MOVE_WATERFALL
-	compare VAR_RESULT, 6
-	goto_if_eq Waterfall_NoMonKnows
+	setvar VAR_RESULT, 0
 	bufferpartymonnick 0, VAR_RESULT
 	setfieldeffectargument 0, VAR_RESULT
 	msgbox UseWaterfallPromptText, MSGBOX_YESNO
@@ -219,9 +213,7 @@ UsedWaterfallText: @ 81B120D
 
 UseDiveScript:: @ 81B1220
 	lockall
-	checkpartymove MOVE_DIVE
-	compare VAR_RESULT, 6
-	goto_if_eq CannotUseDive
+	setvar VAR_RESULT, 0
 	bufferpartymonnick 0, VAR_RESULT
 	setfieldeffectargument 0, VAR_RESULT
 	setfieldeffectargument 1, 1
@@ -242,9 +234,7 @@ Dive_Done: @ 81B1267
 
 S_UseDiveUnderwater:: @ 81B1269
 	lockall
-	checkpartymove MOVE_DIVE
-	compare VAR_RESULT, 6
-	goto_if_eq UnderwaterCannotUseDive
+	setvar VAR_RESULT, 0
 	bufferpartymonnick 0, VAR_RESULT
 	setfieldeffectargument 0, VAR_RESULT
 	setfieldeffectargument 1, 1

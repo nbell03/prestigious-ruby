@@ -35,10 +35,3 @@ jobs:
           file pokeruby.gba
           sha256sum pokeruby.gba
 
-      - name: Upload test ROM
-        uses: actions/upload-artifact@v4
-        with:
-          name: prestigious-ruby-test-rom
-          path: pokeruby.gba
-          if-no-files-found: error
-          retention-days: 7
