@@ -67,17 +67,20 @@ jobs:
             sleep 4
             crop_screen mgba-after-start-1
             xdotool key --clearmodifiers Return
-            sleep 4
+            sleep 12
             crop_screen mgba-after-start-2
-            dimensions=$(identify -format "%wx%h" mgba-after-start-2.png)
-            colors=$(identify -format "%k" mgba-after-start-2.png)
-            echo "GBA viewport after two Start inputs: $dimensions; unique colors: $colors"
+            # Let the title-screen animation finish, then capture it separately.
+            sleep 10
+            crop_screen mgba-title-wait
+            dimensions=$(identify -format "%wx%h" mgba-title-wait.png)
+            colors=$(identify -format "%k" mgba-title-wait.png)
+            echo "GBA viewport after intro and title wait: $dimensions; unique colors: $colors"
             cat mgba-smoke.log
             if [ "$colors" -lt 8 ] || [ "$dimensions" != "240x160" ]; then
               echo "FAIL: GBA viewport is blank or missing"
               exit 1
             fi
-            echo "PASS: mGBA rendered the GBA viewport and accepted two Start inputs."
+            echo "PASS: mGBA rendered the GBA viewport after the intro and title wait."
           '
 
       - name: Upload ROM and emulator evidence
@@ -94,5 +97,7 @@ jobs:
             mgba-after-start-1-full.png
             mgba-after-start-2.png
             mgba-after-start-2-full.png
+            mgba-title-wait.png
+            mgba-title-wait-full.png
           if-no-files-found: warn
           retention-days: 7
