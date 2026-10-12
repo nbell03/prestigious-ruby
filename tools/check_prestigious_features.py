@@ -25,6 +25,7 @@ gym_scripts = read("data/maps/PetalburgCity_Gym/scripts.inc")
 flags = read("include/constants/flags.h")
 damage = read("src/calculate_base_damage.c")
 field_moves = read("data/field_move_scripts.inc")
+magma_text = read("data/maps/MeteorFalls_1F_1R/text.inc")
 
 def move_entry(name):
     match = re.search(r"\[" + re.escape(name) + r"\]\s*=\s*\{(.*?)\n\s*\},", moves, re.S)
@@ -61,9 +62,19 @@ require("Brandon encounter is gated behind game clear",
 require("Brandon battle uses Steven's original encounter slot",
         "CaveOfOrigin_B4F_EventScript_Brandon::" in cave_scripts
         and "trainerbattle_no_intro TRAINER_STEVEN" in cave_scripts)
+require("Brandon encounter has intro and post-battle dialogue",
+        "CaveOfOrigin_B4F_Text_BrandonIntro" in cave_scripts
+        and "CaveOfOrigin_B4F_Text_BrandonAfterBattle" in cave_scripts)
+require("Team Magma dialogue retains land goal",
+        "homes of future generations" in magma_text)
+require("Team Magma dialogue references Maxie and the meteorite",
+        "MAXIE" in magma_text and "METEORITE" in magma_text)
+brandon_party_start = trainers.find("gTrainerParty_Steven[]")
+brandon_party = trainers[brandon_party_start:brandon_party_start + 4000]
+require("Brandon party definition exists", brandon_party_start >= 0)
 for species in ("SPECIES_REGIROCK", "SPECIES_REGICE", "SPECIES_REGISTEEL",
                 "SPECIES_NINJASK", "SPECIES_DUSCLOPS", "SPECIES_SOLROCK"):
-    require(f"Brandon party includes {species}", species in trainers[trainers.find("gTrainerParty_Steven[]"):trainers.find("gTrainerParty_Steven[]") + 4000])
+    require(f"Brandon party includes {species}", species in brandon_party)
 
 require("HM field scripts retain badge progression checks",
         "CannotUseCut" in field_moves and "CannotUseRockSmash" in field_moves
