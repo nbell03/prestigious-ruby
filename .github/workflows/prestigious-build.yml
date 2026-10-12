@@ -25,10 +25,10 @@ jobs:
       - name: Check out source
         uses: actions/checkout@v4
 
-      - name: Install GBA build dependencies and mGBA
+      - name: Install GBA build dependencies and emulator test tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential git libpng-dev gcc-arm-none-eabi binutils-arm-none-eabi mgba-sdl xvfb
+          sudo apt-get install -y build-essential git libpng-dev gcc-arm-none-eabi binutils-arm-none-eabi mgba-sdl xvfb xdotool imagemagick
 
       - name: Build Pokémon Ruby
         run: make -j2 modern
@@ -44,28 +44,50 @@ jobs:
           file pokeruby.gba
           sha256sum pokeruby.gba
 
-      - name: mGBA emulator launch smoke test
+      - name: Launch ROM in mGBA and capture the actual game window
         shell: bash
         run: |
-          set +e
-          SDL_AUDIODRIVER=dummy timeout --signal=TERM 12s xvfb-run -a mgba -l 15 pokeruby.gba > mgba-smoke.log 2>&1
-          result=$?
-          set -e
-          cat mgba-smoke.log
-          # A timeout exit means the emulator remained alive for the full test window.
-          # This is a load/stability smoke test, not a visual gameplay certification.
-          if [ "$result" -ne 124 ] && [ "$result" -ne 143 ]; then
-            echo "mGBA exited unexpectedly with status $result"
-            exit 1
-          fi
-          echo "PASS: mGBA loaded the ROM and remained running for 12 seconds."
+          set -euo pipefail
+          export SDL_AUDIODRIVER=dummy
+          export ROM_PATH="$PWD/pokeruby.gba"
+          xvfb-run -a bash -euo pipefail -c '
+            mgba -l 15 "$ROM_PATH" > mgba-smoke.log 2>&1 &
+            emu_pid=$!
+            cleanup() { kill "$emu_pid" 2>/dev/null || true; wait "$emu_pid" 2>/dev/null || true; }
+            trap cleanup EXIT
+            window=""
+            for attempt in $(seq 1 30); do
+              window=$(xdotool search --onlyvisible --name "pokeruby.gba" 2>/dev/null | head -n 1 || true)
+              if [ -n "$window" ]; then break; fi
+              sleep 0.5
+            done
+            if [ -z "$window" ]; then
+              cat mgba-smoke.log
+              echo "FAIL: mGBA did not create a visible ROM window"
+              exit 1
+            fi
+            sleep 8
+            import -window "$window" mgba-screen.png
+            dimensions=$(identify -format "%wx%h" mgba-screen.png)
+            colors=$(identify -format "%k" mgba-screen.png)
+            echo "mGBA screenshot dimensions: $dimensions; unique colors: $colors"
+            cat mgba-smoke.log
+            # A white/solid blank screen will fail this check. The screenshot is
+            # retained for manual review; color diversity alone is not proof of gameplay.
+            if [ "$colors" -lt 16 ]; then
+              echo "FAIL: emulator window appears blank or nearly blank"
+              exit 1
+            fi
+            echo "PASS: emulator rendered a nonblank game window after 8 seconds"
+          '
 
-      - name: Upload ROM and emulator log
+      - name: Upload ROM and emulator evidence
         uses: actions/upload-artifact@v4
         with:
           name: prestigious-ruby-emulator-smoke-test
           path: |
             pokeruby.gba
             mgba-smoke.log
+            mgba-screen.png
           if-no-files-found: error
           retention-days: 7
