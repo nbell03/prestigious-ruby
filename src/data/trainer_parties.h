@@ -9246,138 +9246,138 @@ const struct TrainerMonNoItemCustomMoves gTrainerParty_Wally6[] = {
 const struct TrainerMonNoItemDefaultMoves gTrainerParty_Brendan10[] = {
     {
 	.iv = 150,
-	.level = 31,
+	.level = 35,
 	.species = SPECIES_SWELLOW
     },
     {
 	.iv = 150,
-	.level = 32,
+	.level = 36,
 	.species = SPECIES_NUMEL
     },
     {
 	.iv = 150,
-	.level = 32,
+	.level = 36,
 	.species = SPECIES_WAILMER
     },
     {
 	.iv = 200,
-	.level = 34,
-	.species = SPECIES_GROVYLE
+	.level = 38,
+	.species = SPECIES_SCEPTILE
     }
 };
 
 const struct TrainerMonNoItemDefaultMoves gTrainerParty_Brendan11[] = {
     {
 	.iv = 150,
-	.level = 31,
+	.level = 35,
 	.species = SPECIES_SWELLOW
     },
     {
 	.iv = 150,
-	.level = 32,
+	.level = 36,
 	.species = SPECIES_WAILMER
     },
     {
 	.iv = 150,
-	.level = 32,
+	.level = 36,
 	.species = SPECIES_SHROOMISH
     },
     {
 	.iv = 200,
-	.level = 34,
-	.species = SPECIES_COMBUSKEN
+	.level = 38,
+	.species = SPECIES_BLAZIKEN
     }
 };
 
 const struct TrainerMonNoItemDefaultMoves gTrainerParty_Brendan12[] = {
     {
 	.iv = 150,
-	.level = 31,
+	.level = 35,
 	.species = SPECIES_SWELLOW
     },
     {
 	.iv = 150,
-	.level = 32,
+	.level = 36,
 	.species = SPECIES_SHROOMISH
     },
     {
 	.iv = 150,
-	.level = 32,
+	.level = 36,
 	.species = SPECIES_NUMEL
     },
     {
 	.iv = 200,
-	.level = 34,
-	.species = SPECIES_MARSHTOMP
+	.level = 38,
+	.species = SPECIES_SWAMPERT
     }
 };
 
 const struct TrainerMonNoItemDefaultMoves gTrainerParty_May10[] = {
     {
 	.iv = 150,
-	.level = 31,
+	.level = 35,
 	.species = SPECIES_SWELLOW
     },
     {
 	.iv = 150,
-	.level = 32,
+	.level = 36,
 	.species = SPECIES_NUMEL
     },
     {
 	.iv = 150,
-	.level = 32,
+	.level = 36,
 	.species = SPECIES_WAILMER
     },
     {
 	.iv = 200,
-	.level = 34,
-	.species = SPECIES_GROVYLE
+	.level = 38,
+	.species = SPECIES_SCEPTILE
     }
 };
 
 const struct TrainerMonNoItemDefaultMoves gTrainerParty_May11[] = {
     {
 	.iv = 150,
-	.level = 31,
+	.level = 35,
 	.species = SPECIES_SWELLOW
     },
     {
 	.iv = 150,
-	.level = 32,
+	.level = 36,
 	.species = SPECIES_WAILMER
     },
     {
 	.iv = 150,
-	.level = 32,
+	.level = 36,
 	.species = SPECIES_SHROOMISH
     },
     {
 	.iv = 200,
-	.level = 34,
-	.species = SPECIES_COMBUSKEN
+	.level = 38,
+	.species = SPECIES_BLAZIKEN
     }
 };
 
 const struct TrainerMonNoItemDefaultMoves gTrainerParty_May12[] = {
     {
 	.iv = 150,
-	.level = 31,
+	.level = 35,
 	.species = SPECIES_SWELLOW
     },
     {
 	.iv = 150,
-	.level = 32,
+	.level = 36,
 	.species = SPECIES_SHROOMISH
     },
     {
 	.iv = 150,
-	.level = 32,
+	.level = 36,
 	.species = SPECIES_NUMEL
     },
     {
 	.iv = 200,
-	.level = 34,
-	.species = SPECIES_MARSHTOMP
+	.level = 38,
+	.species = SPECIES_SWAMPERT
     }
 };
 
