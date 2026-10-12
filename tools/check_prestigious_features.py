@@ -73,7 +73,9 @@ physical_start = damage.find("static bool8 IsMovePhysical")
 special_start = damage.find("static bool8 IsMoveSpecial", physical_start)
 calc_start = damage.find("s32 CalculateBaseDamage", special_start)
 physical_cases = damage[physical_start:special_start]
-special_override_start = damage.find("// Special moves whose types were physical before Generation IV.", physical_start)
+physical_override_end = damage.find("// Special moves whose types were physical before Generation IV.", physical_start)
+physical_overrides = damage[physical_start:physical_override_end]
+special_override_start = physical_override_end
 special_override_end = damage.find("return FALSE;", special_override_start)
 special_overrides = damage[special_override_start:special_override_end]
 
@@ -96,7 +98,7 @@ for move in ("MOVE_FIRE_PUNCH", "MOVE_WATERFALL", "MOVE_BULLET_SEED",
              "MOVE_THIEF", "MOVE_KNOCK_OFF", "MOVE_SHADOW_PUNCH",
              "MOVE_LICK", "MOVE_ASTONISH", "MOVE_METAL_CLAW",
              "MOVE_STEEL_WING", "MOVE_POISON_FANG", "MOVE_POISON_TAIL"):
-    require(f"{move} is classified physical", f"case {move}:" in physical_cases)
+    require(f"{move} is classified physical", f"case {move}:" in physical_overrides)
 for move in ("MOVE_SHADOW_BALL", "MOVE_SLUDGE_BOMB", "MOVE_HYPER_BEAM",
              "MOVE_RAZOR_WIND", "MOVE_SONIC_BOOM", "MOVE_SWIFT",
              "MOVE_GUST", "MOVE_TRI_ATTACK", "MOVE_HYPER_VOICE",
