@@ -19,6 +19,7 @@ CaveOfOrigin_B4F_MapScript1_15DDC5:: @ 815DDC5
 	.endif
 	call Common_EventScript_SetupLegendaryGfxIds
 	call_if_set FLAG_LEGENDARY_BATTLE_COMPLETED, CaveOfOrigin_EventScript_DisableTriggers
+	call CaveOfOrigin_B4F_EventScript_UpdateBrandonVisibility
 	end
 
 CaveOfOrigin_B4F_EventScript_15DDD7:: @ 815DDD7
@@ -95,3 +96,32 @@ CaveOfOrigin_B4F_Movement_15DE7D:: @ 815DE7D
 	delay_16
 	walk_down_affine
 	step_end
+
+CaveOfOrigin_B4F_EventScript_UpdateBrandonVisibility::
+	checkflag FLAG_SYS_GAME_CLEAR
+	goto_if_set CaveOfOrigin_B4F_EventScript_CheckBrandonDefeated
+	setflag FLAG_HIDE_BRANDON_CAVE_OF_ORIGIN
+	return
+
+CaveOfOrigin_B4F_EventScript_CheckBrandonDefeated::
+	checkflag FLAG_DEFEATED_BRANDON_CAVE_OF_ORIGIN
+	goto_if_set CaveOfOrigin_B4F_EventScript_HideBrandon
+	clearflag FLAG_HIDE_BRANDON_CAVE_OF_ORIGIN
+	return
+
+CaveOfOrigin_B4F_EventScript_HideBrandon::
+	setflag FLAG_HIDE_BRANDON_CAVE_OF_ORIGIN
+	return
+
+CaveOfOrigin_B4F_EventScript_Brandon::
+	lock
+	faceplayer
+	playbgm MUS_ENCOUNTER_CHAMPION, FALSE
+	msgbox CaveOfOrigin_B4F_Text_BrandonIntro, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_STEVEN, CaveOfOrigin_B4F_Text_BrandonDefeat
+	setflag FLAG_DEFEATED_BRANDON_CAVE_OF_ORIGIN
+	setflag FLAG_HIDE_BRANDON_CAVE_OF_ORIGIN
+	msgbox CaveOfOrigin_B4F_Text_BrandonAfterBattle, MSGBOX_DEFAULT
+	playbgm MUS_DUMMY, TRUE
+	release
+	end
