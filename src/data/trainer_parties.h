@@ -8298,17 +8298,17 @@ const struct TrainerMonNoItemDefaultMoves gTrainerParty_Courtney2[] = {
 const struct TrainerMonNoItemDefaultMoves gTrainerParty_Maxie2[] = {
     {
 	.iv = 150,
-	.level = 43,
+	.level = 45,
 	.species = SPECIES_MIGHTYENA
     },
     {
 	.iv = 150,
-	.level = 43,
+	.level = 45,
 	.species = SPECIES_CROBAT
     },
     {
 	.iv = 150,
-	.level = 46,
+	.level = 48,
 	.species = SPECIES_CAMERUPT
     }
 };
