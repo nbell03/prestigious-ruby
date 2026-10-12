@@ -98,14 +98,11 @@ CaveOfOrigin_B4F_Movement_15DE7D:: @ 815DE7D
 	step_end
 
 CaveOfOrigin_B4F_EventScript_UpdateBrandonVisibility::
-	checkflag FLAG_SYS_GAME_CLEAR
-	goto_if_set CaveOfOrigin_B4F_EventScript_CheckBrandonDefeated
-	setflag FLAG_HIDE_BRANDON_CAVE_OF_ORIGIN
-	return
+	goto_if_unset FLAG_SYS_GAME_CLEAR, CaveOfOrigin_B4F_EventScript_HideBrandon
+	goto CaveOfOrigin_B4F_EventScript_CheckBrandonDefeated
 
 CaveOfOrigin_B4F_EventScript_CheckBrandonDefeated::
-	checkflag FLAG_DEFEATED_BRANDON_CAVE_OF_ORIGIN
-	goto_if_set CaveOfOrigin_B4F_EventScript_HideBrandon
+	goto_if_set FLAG_DEFEATED_BRANDON_CAVE_OF_ORIGIN, CaveOfOrigin_B4F_EventScript_HideBrandon
 	clearflag FLAG_HIDE_BRANDON_CAVE_OF_ORIGIN
 	return
 
