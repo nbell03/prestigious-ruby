@@ -16,10 +16,10 @@ jobs:
       - name: Checkout Prestigious Ruby source
         uses: actions/checkout@v4
 
-      - name: Install build dependencies
+      - name: Install build dependencies and emulator
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential git libpng-dev gcc-arm-none-eabi binutils-arm-none-eabi
+          sudo apt-get install -y build-essential git libpng-dev gcc-arm-none-eabi binutils-arm-none-eabi mgba-sdl xvfb
 
       - name: Checkout legacy agbcc compiler
         uses: actions/checkout@v4
@@ -39,9 +39,9 @@ jobs:
           python3 - <<'PY'
           import re
           from pathlib import Path
-          text = Path("src/data/battle_moves.c").read_text()
+          moves = Path("src/data/battle_moves.c").read_text()
           for name, effect in (("BULLET_SEED", "EFFECT_MULTI_HIT"), ("FURY_CUTTER", "EFFECT_FURY_CUTTER")):
-              m = re.search(rf"\[MOVE_{name}\]\s*=\s*\{{(.*?)\n\s*\}},", text, re.S)
+              m = re.search(rf"\[MOVE_{name}\]\s*=\s*\{{(.*?)\n\s*\}},", moves, re.S)
               assert m and re.search(r"\.power\s*=\s*25\s*,", m.group(1)), name
               assert re.search(rf"\.effect\s*=\s*{effect}\s*,", m.group(1)), name
           print("PASS: move-power checks passed")
@@ -60,10 +60,28 @@ jobs:
           sha1sum pokeruby.gba
           file pokeruby.gba
 
-      - name: Upload staged candidate ROM for testing
+      - name: mGBA emulator launch smoke test
+        shell: bash
+        run: |
+          set +e
+          SDL_AUDIODRIVER=dummy timeout --signal=TERM 12s xvfb-run -a mgba -l 15 pokeruby.gba > mgba-smoke.log 2>&1
+          result=$?
+          set -e
+          cat mgba-smoke.log
+          # timeout=124 means the emulator stayed alive for the full smoke window.
+          # This checks loading/stability only; it does not prove visual gameplay correctness.
+          if [ "$result" -ne 124 ] && [ "$result" -ne 143 ]; then
+            echo "mGBA exited unexpectedly with status $result"
+            exit 1
+          fi
+          echo "PASS: mGBA loaded the ROM and remained running for 12 seconds."
+
+      - name: Upload staged candidate and emulator log
         uses: actions/upload-artifact@v4
         with:
           name: prestigious-ruby-staged-build
-          path: pokeruby.gba
+          path: |
+            pokeruby.gba
+            mgba-smoke.log
           if-no-files-found: error
           retention-days: 7
