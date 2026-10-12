@@ -5,8 +5,8 @@ import re
 
 ROOT = Path(__file__).resolve().parents[1]
 
-def read(path):
-    return (ROOT / path).read_text(encoding="utf-8")
+def read(path, encoding="utf-8"):
+    return (ROOT / path).read_text(encoding=encoding)
 
 def write(path, data):
     (ROOT / path).write_text(data, encoding="utf-8")
@@ -41,9 +41,10 @@ for species, old, new, target in [
 write(path, text)
 print("PASS: Vibrava evolves at 40; Shelgon evolves at 45")
 
-# Assert that the previously saved stat edits are present; fail closed if not.
+# Verify the previously saved stat edits. This file contains legacy game text
+# in a Latin-1-compatible encoding, so read it accordingly.
 path = "src/data/pokemon/base_stats.h"
-text = read(path)
+text = read(path, "latin-1")
 for species, attack, special_attack in [
     ("TREECKO", 65, 45),
     ("GROVYLE", 85, 65),
