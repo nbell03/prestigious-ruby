@@ -48,7 +48,9 @@ for move, effect in (("MOVE_BULLET_SEED", "EFFECT_MULTI_HIT"),
 for species, level, target in (
     ("SPECIES_ARON", 25, "SPECIES_LAIRON"),
     ("SPECIES_LAIRON", 38, "SPECIES_AGGRON"),
+    ("SPECIES_TRAPINCH", 35, "SPECIES_VIBRAVA"),
     ("SPECIES_VIBRAVA", 40, "SPECIES_FLYGON"),
+    ("SPECIES_BAGON", 30, "SPECIES_SHELGON"),
     ("SPECIES_SHELGON", 45, "SPECIES_SALAMENCE"),
     ("SPECIES_KADABRA", 36, "SPECIES_ALAKAZAM"),
     ("SPECIES_MACHOKE", 36, "SPECIES_MACHAMP"),
@@ -202,22 +204,23 @@ for species in ("SPECIES_REGIROCK", "SPECIES_REGICE", "SPECIES_REGISTEEL",
                 "SPECIES_NINJASK", "SPECIES_DUSCLOPS", "SPECIES_SOLROCK"):
     require(f"Brandon party includes {species}", species in brandon_party)
 
-require("HM obstacle scripts preserve badge and HM acquisition gates",
+require("Cut, Rock Smash, and Strength preserve badge and HM gates",
         "FLAG_BADGE01_GET" in field_moves and "FLAG_RECEIVED_HM01" in field_moves
         and "FLAG_BADGE03_GET" in field_moves and "FLAG_RECEIVED_HM06" in field_moves
         and "FLAG_BADGE04_GET" in field_moves and "FLAG_RECEIVED_HM04" in field_moves)
-require("Field HM scripts do not require a Pokemon to know the HM",
-        "checkpartymove" not in field_moves and "checkpartymove MOVE_SURF" not in surf_script)
-require("Surf, Dive, and Waterfall preserve acquisition gates",
-        "FLAG_RECEIVED_HM_SURF" in field_avatar
-        and "FLAG_RECEIVED_HM08" in field_avatar
-        and "ITEM_HM07_WATERFALL" in field_avatar)
-require("Contextual party-menu HMs preserve badge gates",
-        "FLAG_BADGE05_GET" in pokemon_menu
-        and "FLAG_BADGE06_GET" in pokemon_menu
-        and "FLAG_BADGE07_GET" in pokemon_menu
-        and "FLAG_BADGE08_GET" in pokemon_menu
-        and "FLAG_BADGE02_GET" in pokemon_menu)
+require("All eight HM field actions avoid party move-knowledge checks",
+        "checkpartymove" not in field_moves + surf_script + field_avatar
+        and "CheckPlayerHasMove" not in field_moves + surf_script + field_avatar)
+require("Surf, Dive, and Waterfall preserve their badge and HM/item gates",
+        "FLAG_BADGE05_GET" in field_avatar and "FLAG_RECEIVED_HM_SURF" in field_avatar
+        and "FLAG_BADGE07_GET" in field_avatar and "FLAG_RECEIVED_HM08" in field_avatar
+        and "FLAG_BADGE08_GET" in field_avatar and "ITEM_HM07_WATERFALL" in field_avatar)
+require("Flash and Fly preserve their badge and HM acquisition gates",
+        "FLAG_BADGE02_GET" in pokemon_menu and "FLAG_RECEIVED_HM05" in pokemon_menu
+        and "FLAG_BADGE06_GET" in pokemon_menu and "FLAG_RECEIVED_HM02" in pokemon_menu)
+require("Contextual party-menu HMs preserve all required badge gates",
+        all(flag in pokemon_menu for flag in ("FLAG_BADGE02_GET", "FLAG_BADGE05_GET",
+            "FLAG_BADGE06_GET", "FLAG_BADGE07_GET", "FLAG_BADGE08_GET")))
 require("Absol event and one-time state flag are present",
         "SPECIES_ABSOL, 5, ITEM_NONE" in gym_scripts
         and "VAR_PETALBURG_GYM_STATE, 2" in gym_scripts
