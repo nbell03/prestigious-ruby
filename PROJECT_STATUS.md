@@ -46,6 +46,11 @@ Last updated: 2026-10-12
 - Added source regression coverage for additional level-36 trade evolutions: Slowpoke -> Slowking, Poliwhirl -> Politoed, and Clamperl -> Huntail, alongside the existing list. Commit: `33df9f5a`.
 - Next release milestone: get the custom branch's build and source checks green, then make a BPS patch from the built ROM against a clean matching Ruby 1.0 base. Do not upload the complete copyrighted ROM as a workflow artifact; keep only the patch and verification metadata.
 
+- User preference clarified: do not invite or ask the user to test interim builds; they want to wait until Prestigious Ruby is finished. Continue building and validate internally before announcing a finished test-ready patch.
+- Added a first balance pass to the late rival battles in `src/data/trainer_parties.h`: all three starter matchups for the late Brendan/May party variants now use the fully evolved starter (Sceptile, Blaziken, or Swampert) at level 38, with supporting party members raised from levels 31/32 to 35/36. Commit: `7425f689`.
+- Added regression checks for the fully evolved starter in all six late rival party variants. Commit: `c897c721`. These tests and the latest build still require CI confirmation; do not treat the party changes as playtested.
+- The custom build run triggered after workflow fixes was queued but did not yield a completed job result in the latest check. Continue monitoring; no release patch is ready yet.
+
 ## Next steps
 1. Trigger CI on the current branch tip and confirm the current workflow builds successfully without publishing the full ROM.
 2. Review the move-category implementation for move coverage and edge cases, including Thick Fat, screens, weather, critical hits, fixed-damage moves, and move/type overrides.
