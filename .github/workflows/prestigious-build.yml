@@ -73,7 +73,7 @@ jobs:
             # Capture promptly after the six input taps; prolonged idle time was causing a blank viewport in CI.
             sleep 3
             crop_screen mgba-title-wait
-            dimensions=$(identify -format "%wx%h" mgba-title-check.png)
+            dimensions=$(identify -format "%wx%h" mgba-title-wait.png)
             colors=$(identify -format "%k" mgba-title-wait.png)
             menu_text=$(tesseract mgba-title-wait.png stdout 2>/dev/null | tr '[:lower:]' '[:upper:]')
             echo "GBA viewport shortly after six Start taps: $dimensions; unique colors: $colors"
