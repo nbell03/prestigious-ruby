@@ -409,3 +409,12 @@ PetalburgCity_Gym_Text_GymStatueCertified:: @ 817BAC0
 	.string "PETALBURG CITY POKéMON GYM\p"
 	.string "NORMAN'S CERTIFIED TRAINERS:\n"
 	.string "{PLAYER}$"
+
+PetalburgCity_Gym_Text_NormanGivesAbsol::
+	.string "DAD: You helped WALLY catch his first\n"
+	.string "POKéMON. Now I want you to have one\n"
+	.string "of your own.\p"
+	.string "ABSOL is strong and independent, but\n"
+	.string "it can become a loyal partner. Train\n"
+	.string "well together, {PLAYER}!\p"
+	.string "{PLAYER} received ABSOL!$"
