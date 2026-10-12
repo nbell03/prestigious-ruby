@@ -84,6 +84,16 @@ require("Team Magma dialogue retains land goal",
         "homes of future generations" in magma_text)
 require("Team Magma dialogue references Maxie and the meteorite",
         "MAXIE" in magma_text and "METEORITE" in magma_text)
+
+# Late Maxie is a key Ruby antagonist battle and should remain a meaningful challenge.
+maxie2_start = trainers.find("gTrainerParty_Maxie2[] = {")
+maxie2_end = trainers.find("\\n};", maxie2_start)
+maxie2_party = trainers[maxie2_start:maxie2_end] if maxie2_start >= 0 and maxie2_end >= 0 else ""
+for species, level in (("SPECIES_MIGHTYENA", 45),
+                       ("SPECIES_CROBAT", 45),
+                       ("SPECIES_CAMERUPT", 48)):
+    require(f"Late Maxie battle has {species} at level {level}",
+            f".level = {level},\\n\\t.species = {species}" in maxie2_party)
 brandon_party_start = trainers.find("gTrainerParty_Steven[]")
 brandon_party = trainers[brandon_party_start:brandon_party_start + 4000]
 require("Brandon party definition exists", brandon_party_start >= 0)
