@@ -114,7 +114,7 @@ for party, species in (("Brendan10", "SPECIES_SCEPTILE"),
                        ("May11", "SPECIES_BLAZIKEN"),
                        ("May12", "SPECIES_SWAMPERT")):
     start = trainers.find(f"gTrainerParty_{party}[] = {{")
-    end = trainers.find("\\n};", start)
+    end = trainers.find("\n};", start)
     block = trainers[start:end] if start >= 0 and end >= 0 else ""
     require(f"Later rival party {party} has fully evolved starter",
             species in block and ".level = 38" in block)
