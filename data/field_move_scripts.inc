@@ -1,6 +1,7 @@
 S_CuttableTree:: @ 81B0DCC
 	lockall
 	goto_if_unset FLAG_BADGE01_GET, CannotUseCut
+	goto_if_unset FLAG_RECEIVED_HM01, CannotUseCut
 	setvar VAR_RESULT, 0
 	setfieldeffectargument 0, VAR_RESULT
 	bufferpartymonnick 0, VAR_RESULT
@@ -56,6 +57,7 @@ CannotUseCutText: @ 81B0E8E
 S_BreakableRock:: @ 81B0EB7
 	lockall
 	goto_if_unset FLAG_BADGE03_GET, CannotUseRockSmash
+	goto_if_unset FLAG_RECEIVED_HM06, CannotUseRockSmash
 	setvar VAR_RESULT, 0
 	setfieldeffectargument 0, VAR_RESULT
 	bufferpartymonnick 0, VAR_RESULT
@@ -120,6 +122,7 @@ CannotUseRockSmashText: @ 81B0F90
 S_PushableBoulder:: @ 81B0FCB
 	lockall
 	goto_if_unset FLAG_BADGE04_GET, CannotUseStrength
+	goto_if_unset FLAG_RECEIVED_HM04, CannotUseStrength
 	goto_if_set FLAG_SYS_USE_STRENGTH, AlreadyUsedStrength
 	setvar VAR_RESULT, 0
 	setfieldeffectargument 0, VAR_RESULT

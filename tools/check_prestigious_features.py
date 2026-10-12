@@ -25,6 +25,8 @@ gym_scripts = read("data/maps/PetalburgCity_Gym/scripts.inc")
 flags = read("include/constants/flags.h")
 damage = read("src/calculate_base_damage.c")
 field_moves = read("data/field_move_scripts.inc")
+field_avatar = read("src/field_control_avatar.c")
+surf_script = read("data/scripts/surf.inc")
 magma_text = read("data/maps/MeteorFalls_1F_1R/text.inc")
 
 def move_entry(name):
@@ -86,9 +88,16 @@ for species in ("SPECIES_REGIROCK", "SPECIES_REGICE", "SPECIES_REGISTEEL",
                 "SPECIES_NINJASK", "SPECIES_DUSCLOPS", "SPECIES_SOLROCK"):
     require(f"Brandon party includes {species}", species in brandon_party)
 
-require("HM field scripts retain badge progression checks",
-        "CannotUseCut" in field_moves and "CannotUseRockSmash" in field_moves
-        and "FLAG_BADGE01_GET" in field_moves and "FLAG_BADGE03_GET" in field_moves)
+require("HM obstacle scripts preserve badge and HM acquisition gates",
+        "FLAG_BADGE01_GET" in field_moves and "FLAG_RECEIVED_HM01" in field_moves
+        and "FLAG_BADGE03_GET" in field_moves and "FLAG_RECEIVED_HM06" in field_moves
+        and "FLAG_BADGE04_GET" in field_moves and "FLAG_RECEIVED_HM04" in field_moves)
+require("Field HM scripts do not require a Pokemon to know the HM",
+        "checkpartymove" not in field_moves and "checkpartymove MOVE_SURF" not in surf_script)
+require("Surf, Dive, and Waterfall preserve acquisition gates",
+        "FLAG_RECEIVED_HM_SURF" in field_avatar
+        and "FLAG_RECEIVED_HM08" in field_avatar
+        and "ITEM_HM07_WATERFALL" in field_avatar)
 require("Absol event and one-time state flag are present",
         "SPECIES_ABSOL, 5, ITEM_NONE" in gym_scripts
         and "VAR_PETALBURG_GYM_STATE, 2" in gym_scripts
