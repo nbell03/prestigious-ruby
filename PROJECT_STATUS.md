@@ -56,6 +56,8 @@ Last updated: 2026-10-12
 
 - Physical/special compatibility fix: Light Ball now doubles both Pikachu's Attack and Special Attack, matching the Generation IV-era item behavior needed once Electric moves can be physical or special. Added a source regression check. Commit: `3273e371`; regression update committed separately. CI confirmation is still pending.
 
+- Brandon map regression coverage: the feature suite now verifies that the Cave of Origin map object points to Brandon's event script and uses the dedicated hidden-until-postgame flag, in addition to checking the game-clear gate, battle dialogue, and party. This helps catch a script that exists but is not connected to the map. Test commit: `PENDING_SHA`.
+
 - Team Magma story regression coverage: added checks for the actual Slateport Oceanic Museum Maxie warning, confirming it explains homes/farms/future generations, acknowledges the earth's balance and the risk of action, and argues that inaction has a cost. The test also confirms the text is linked from the museum event; Meteor Falls' separate meteorite/history speech is checked independently. Test commit: `8bd6514d`.
 
 - Move-category audit expanded: the automated split checks now cover more of Ruby's Gen III moves that changed category in Gen IV, including Vine Whip/Leaf Blade, Volt Tackle, Outrage, Dark/Ghost/Steel/Poison examples, and special Normal/Poison/Ground/Bug/Rock/Steel moves. This strengthens the source audit without changing move behavior. Test commit: `62213b1a`; full compile and gameplay checks remain required.
