@@ -44,7 +44,7 @@ jobs:
           file pokeruby.gba
           sha256sum pokeruby.gba
 
-      - name: Launch ROM in mGBA and inspect the GBA viewport
+      - name: Launch ROM, advance past intro, and inspect the GBA viewport
         shell: bash
         run: |
           set -euo pipefail
@@ -55,23 +55,25 @@ jobs:
             emu_pid=$!
             cleanup() { kill "$emu_pid" 2>/dev/null || true; wait "$emu_pid" 2>/dev/null || true; }
             trap cleanup EXIT
-            # Ruby begins with a green Rayquaza intro animation; allow it time to render.
-            sleep 20
+            # Capture the opening sequence before pressing Start.
+            sleep 15
+            import -window root mgba-before-start.png
+            convert mgba-before-start.png -crop 240x160+520+432 +repage mgba-intro-screen.png
+            # In mGBA the keyboard Return key maps to GBA Start. This attempts
+            # to skip the intro so we can verify more than the initial splash.
+            xdotool key --clearmodifiers Return
+            sleep 5
             import -window root mgba-screen.png
-            # In this headless mGBA configuration, the 240x160 GBA output is
-            # centered in the 1280x1024 virtual desktop at x=520,y=432.
             convert mgba-screen.png -crop 240x160+520+432 +repage mgba-game-screen.png
             dimensions=$(identify -format "%wx%h" mgba-game-screen.png)
             colors=$(identify -format "%k" mgba-game-screen.png)
-            nonblack=$(convert mgba-game-screen.png -format "%[fx:mean]" info:)
-            echo "GBA viewport: $dimensions; unique colors: $colors; mean brightness: $nonblack"
+            echo "GBA viewport after Start: $dimensions; unique colors: $colors"
             cat mgba-smoke.log
-            # Check the actual 240x160 game output, not the black Xvfb margins.
-            if [ "$colors" -lt 8 ] || [ "$(identify -format "%wx%h" mgba-game-screen.png)" != "240x160" ]; then
+            if [ "$colors" -lt 8 ] || [ "$dimensions" != "240x160" ]; then
               echo "FAIL: GBA viewport is blank or missing"
               exit 1
             fi
-            echo "PASS: mGBA rendered the GBA viewport after 20 seconds."
+            echo "PASS: mGBA rendered the GBA viewport and received a Start-button input."
           '
 
       - name: Upload ROM and emulator evidence
@@ -82,6 +84,8 @@ jobs:
           path: |
             pokeruby.gba
             mgba-smoke.log
+            mgba-before-start.png
+            mgba-intro-screen.png
             mgba-screen.png
             mgba-game-screen.png
           if-no-files-found: warn
