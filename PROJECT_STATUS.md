@@ -42,6 +42,10 @@ Last updated: 2026-10-12
 
 - Physical/special split audit advanced: expanded the regression script to check representative moves that changed category in Generation IV (physical Fire/Water/Grass/Electric/Ice/Dragon/Dark/Ghost/Steel/Poison and special Normal/Flying/Poison/Ground/Ghost/Bug moves). Corrected the special-category tests to check only moves that actually require explicit reclassification; unchanged Ice/Dragon special moves correctly fall through to the type default. These checks are committed but still need a successful CI run and gameplay validation.
 - Latest source-test commits: `32e84501` (expand split coverage) and `b93741f8` (correct the tested move list). Continue frequent saves after each focused change.
+- Fastest-path-to-testing update: GitHub Actions runs are now active for the latest branch. The Prestigious Ruby build has checked out source and installed the GBA dependencies; the actual ROM compilation is in progress. The repository's upstream CI is also running. Neither run has reported a result yet, and no patch artifact is available.
+- Added source regression coverage for additional level-36 trade evolutions: Slowpoke -> Slowking, Poliwhirl -> Politoed, and Clamperl -> Huntail, alongside the existing list. Commit: `33df9f5a`.
+- Next release milestone: get the custom branch's build and source checks green, then make a BPS patch from the built ROM against a clean matching Ruby 1.0 base. Do not upload the complete copyrighted ROM as a workflow artifact; keep only the patch and verification metadata.
+
 ## Next steps
 1. Trigger CI on the current branch tip and confirm the current workflow builds successfully without publishing the full ROM.
 2. Review the move-category implementation for move coverage and edge cases, including Thick Fat, screens, weather, critical hits, fixed-damage moves, and move/type overrides.
